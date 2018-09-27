@@ -1,0 +1,32 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <script src="jquery.min.js"></script>
+        <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+        }
+        .map {
+            position: relative;
+        }
+        /* http://csshexagon.com/ */
+        .petak {
+            position: absolute;
+            width: 40px;
+            height: 35px;
+            /*clip-path: polygon(50% 0%, 95% 25%, 95% 75%, 50% 100%, 5% 75%, 5% 25%);*/
+            clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+            background-color: lightgray;
+            
+        }
+        
+        </style>
+    </head>
+    <body>
+        <div class="map">
+
+        </div>
+    </body>
+    <script src="petak.js"></script>
+</html>
