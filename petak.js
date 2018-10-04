@@ -86,7 +86,7 @@ for (var x = 0; x < besar; x++) {
         $(".map").append(elementBaru);
         
         var elementCoba = $(
-            "<div class='petak' " +
+            "<div class='box' " +
                 "style='left:" + x * 45 + "px; top:" + y * 40 + "px' " +
                 "data-x='" + x + "' " +
                 "data-y='" + y + "'>" +

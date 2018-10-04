@@ -15,13 +15,13 @@ function klikPetak(event) {
     }
     switch (petak.milik) {
         case PIHAK_MERAH:
-            el.css("background-color", "red");
+            $(petak.element).css("background-color", "red");
             break;
         case PIHAK_BIRU:
-            el.css("background-color", "blue");
+            $(petak.element).css("background-color", "blue");
             break;
         case PIHAK_HIJAU:
-            el.css("background-color", "green");
+            $(petak.element).css("background-color", "green");
             break;
     }
     remainingRed = CariJarak(merahStart, merahEnd, PIHAK_MERAH);
