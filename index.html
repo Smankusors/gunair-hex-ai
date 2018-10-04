@@ -9,24 +9,39 @@
         }
         .map {
             position: relative;
+            border-top: 3px solid blue;
+            border-bottom: 3px solid blue;
+            border-left: 3px solid red;
+            border-right: 3px solid red;
         }
-        /* http://csshexagon.com/ */
+        .mapp {
+            position: relative;
+            left: 50%;
+        }
         .petak {
             position: absolute;
             width: 40px;
             height: 35px;
-            /*clip-path: polygon(50% 0%, 95% 25%, 95% 75%, 50% 100%, 5% 75%, 5% 25%);*/
             clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
-            background-color: lightgray;
-            
+            background-color: lightgray;    
         }
-        
+        .petak.merah {
+            background-color: red;
+        }
+        .petak.biru {
+            background-color: blue;
+        }
         </style>
     </head>
     <body>
-        <div class="map">
-
-        </div>
+        <div class="map"></div>
+        <div class="mapp"></div>
     </body>
+    <!--
+        var global :
+        map : isi petak
+    -->
     <script src="petak.js"></script>
+    <script src="prorityqueue.js"></script>
+    <script src="pathfinding.js"></script>
 </html>
