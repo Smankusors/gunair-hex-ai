@@ -4,10 +4,6 @@
  */
 
 
-const MILIK_TIDAKADA = 0;
-const MILIK_MERAH = 1;
-const MILIK_BIRU = 2;
-
 /**
  * Besar map permainan hex ini
  */
@@ -25,11 +21,11 @@ function Petak(x = null, y = null) {
     /**
      * Petak ini sudah diambil oleh warna apa?
      */
-    this.milik = MILIK_TIDAKADA;
+    this.milik = PIHAK_NULL;
     
     /**
      * Dari petak ini dapat terhubung ke petak apa aja?
-     * @type array
+     * @type {Petak[]}
      */
     this.tetangga = [];
 
@@ -62,6 +58,7 @@ function Petak(x = null, y = null) {
 
 /**
  * Map permainan
+ * @type {Petak[][]}
  */
 var map = [];
 // Inisialisasi besarnya elemen map
@@ -108,10 +105,10 @@ for (var x = 0; x < besar; x++) {
 // Inisialisasi pos mulai dan pos akhir pada masing masing warna
 var merahStart = new Petak(-1, null);
 var merahEnd = new Petak(besar, null);
-merahStart.milik = merahEnd.milik = MILIK_MERAH;
+merahStart.milik = merahEnd.milik = PIHAK_MERAH;
 var biruStart = new Petak(null, -1);
 var biruEnd = new Petak(null, besar);
-biruStart.milik = biruEnd.milik = MILIK_BIRU;
+biruStart.milik = biruEnd.milik = PIHAK_BIRU;
 // Inisialisasi tetangga untuk pos mulai dan pos akhir
 for (var i = 0; i < besar; i++) {
 	merahStart.tetangga.push(map[0][i]);
@@ -191,13 +188,4 @@ for (var x = 1; x < besar - 1; x++) {
             map[x - 1][y - 1]
         ];
     }
-}
-
-function klikPetak(event) {
-    let el = $(event.currentTarget);
-    let pos = el.data();
-    map[pos.x][pos.y].tetangga.forEach(petak => {
-        let target = $(petak.element);
-        target.css("background-color", "red");
-    });
 }
