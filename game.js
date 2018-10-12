@@ -1,7 +1,7 @@
-const PIHAK_NULL = 0;
-const PIHAK_MERAH = 1;
-const PIHAK_BIRU = 2;
-const PIHAK_HIJAU = 3;
+const PIHAK_NULL = -1;
+const PIHAK_MERAH = 0;
+const PIHAK_BIRU = 1;
+const PIHAK_HIJAU = 2;
 
 var giliran = PIHAK_MERAH;
 
@@ -11,7 +11,10 @@ function klikPetak(event) {
     var petak = map[data.x][data.y];
     if (petak.milik == PIHAK_NULL) {
         petak.milik = giliran;
-        giliran = giliran % 2 + 1;
+        jumlahMilikKolom[data.x][giliran]++;
+        jumlahMilikBaris[data.y][giliran]++;
+        jumlahMilikDiagonal[petak.diagonal][giliran]++;
+        giliran = (giliran + 1) % 2;
     }
     switch (petak.milik) {
         case PIHAK_MERAH:
@@ -28,4 +31,18 @@ function klikPetak(event) {
     remainingBlue = CariJarak(biruStart, biruEnd, PIHAK_BIRU);
     $("#merahR").text(remainingRed);
     $("#biruR").text(remainingBlue);
+    if (remainingRed == -1)
+        alert("Biru menang!");
+    else if (remainingBlue == -1)
+        alert("merah menang!");
+}
+
+/**
+ * Membentuk class DecisionProrityNode yang digunakan untuk menentukan
+ * langkah selanjutnya untuk AI.
+ * @param {int} step Step keberapa ini?
+ */
+function DecisionProrityNode(step) {
+
+
 }
