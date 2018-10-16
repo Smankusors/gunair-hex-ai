@@ -18,6 +18,7 @@ function Petak(x = null, y = null) {
 	this.x = x;
     this.y = y;
     this.diagonal = (this.x != null && this.y != null ? (besar - x) + y : null);
+    this.uniqueID = x + y * besar;
     /**
      * Petak ini sudah diambil oleh warna apa?
      */
