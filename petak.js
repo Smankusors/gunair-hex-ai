@@ -17,7 +17,8 @@ var besar = 5;
 function Petak(x = null, y = null) {
 	this.x = x;
     this.y = y;
-    
+    this.diagonal = (this.x != null && this.y != null ? (besar - x) + y : null);
+    this.uniqueID = x + y * besar;
     /**
      * Petak ini sudah diambil oleh warna apa?
      */
@@ -61,13 +62,30 @@ function Petak(x = null, y = null) {
  * @type {Petak[][]}
  */
 var map = [];
+/**
+ * Pada suatu baris X, pihak Y memiliki berapa petak?
+ */
+var jumlahMilikBaris = [];
+/**
+ * Pada suatu kolom X, pihak Y memiliki berapa petak?
+ */
+var jumlahMilikKolom = [];
+/**
+ * Pada suatu diagonal X, pihak Y memiliki berapa petak?
+ */
+var jumlahMilikDiagonal = [];
+
 // Inisialisasi besarnya elemen map
 $(".map").css("width", besar * 40);
 $(".map").css("height", besar * 60);
 
 // Inisialisasi variabel map
 for (var x = 0; x < besar; x++) {
-	map[x] = [];
+    map[x] = [];
+    jumlahMilikBaris[x] = [0, 0, 0];
+    jumlahMilikKolom[x] = [0, 0, 0];
+    jumlahMilikDiagonal[x * 2] = [0, 0, 0];
+    jumlahMilikDiagonal[x * 2 + 1] = [0, 0, 0];
     for (var y = 0; y < besar; y++) {
         let petakBaru = new Petak(x, y);
         // Inisisialisasi posisi, trial and error.
