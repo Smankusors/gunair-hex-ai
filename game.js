@@ -27,8 +27,8 @@ function klikPetak(event) {
             $(petak.element).css("background-color", "green");
             break;
     }
-    remainingRed = CariJarak(merahStart, merahEnd, PIHAK_MERAH);
-    remainingBlue = CariJarak(biruStart, biruEnd, PIHAK_BIRU);
+    remainingRed = CariJarak(merahStart, merahEnd, PIHAK_MERAH).cost;
+    remainingBlue = CariJarak(biruStart, biruEnd, PIHAK_BIRU).cost;
     $("#merahR").text(remainingRed);
     $("#biruR").text(remainingBlue);
     if (remainingRed == -1)

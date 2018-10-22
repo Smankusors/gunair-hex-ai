@@ -6,8 +6,9 @@
  * @param {Petak} petakKe
  * @param {int} pihak Dilihat dari pihak mana proritasnya?
  * @param {int} actualCost Cost yang dibutuhkan dari awal menuju ke petak ini
+ * @param {Petak} lewat Untuk menuju petakDari, ini lewat petak mana?
  */
-function PetakPriorityNode(petakDari, petakKe, cost, pihak) {
+function PetakPriorityNode(petakDari, petakKe, cost, pihak, lewat = null) {
     this._jarak = -1;
     
     /**
@@ -22,6 +23,12 @@ function PetakPriorityNode(petakDari, petakKe, cost, pihak) {
      */
     this.petakKe = petakKe;
     
+    /**
+     * Dari petak mana menuju petakDari?
+     * @type {Petak}
+     */
+    this.lewat = lewat;
+
     /**
      * Cost sebenarnya yang dibutuhkan dari awal menuju ke petak ini
      */
@@ -97,22 +104,32 @@ function CariJarak(dari, ke, pihak) {
     while (true) {
         var petakSekarang = nodeSekarang.petakDari;
         var prevColor = $(petakSekarang.element).css("background-color");
+        /*
         if (pihak == PIHAK_MERAH) {
             $(petakSekarang.element).css("background-color", "orange");
         } else {
             $(petakSekarang.element).css("background-color", "cyan");
         }
         $(petakSekarang.element).css("background-color", prevColor);
-        
+        */
         if (petakSekarang == ke) {
-            return nodeSekarang.cost;
+            let cost = nodeSekarang.cost;
+            var dikunjungin = [];
+            while (nodeSekarang.lewat != null) {
+                let petak = nodeSekarang.petakDari;
+                if (petak.x != null && petak.y != null && petak.milik == PIHAK_NULL)
+                    dikunjungin.push(nodeSekarang.petakDari);
+                nodeSekarang = nodeSekarang.lewat;
+            }
+            dikunjungin.push(nodeSekarang.petakDari);
+            return {cost: cost, dikunjungin: dikunjungin};
         }
         petakSekarang.tetangga.forEach(petak => {
             if (!dahDikunjungin.includes(petak)) {
                 if (petak.milik == PIHAK_NULL)
-                    queue.push(new PetakPriorityNode(petak, ke, nodeSekarang.cost + 1, pihak));
+                    queue.push(new PetakPriorityNode(petak, ke, nodeSekarang.cost + 1, pihak, nodeSekarang));
                 else if (petak.milik == pihak) {
-                    queue.push(new PetakPriorityNode(petak, ke, nodeSekarang.cost, pihak));
+                    queue.push(new PetakPriorityNode(petak, ke, nodeSekarang.cost, pihak, nodeSekarang));
                 }
                 dahDikunjungin.push(petak);
             }
