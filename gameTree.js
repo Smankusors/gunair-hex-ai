@@ -7,9 +7,8 @@ function minimax_ab(node, depth, min_val, max_val, min_max){
 	}
     if (depth == 0)
         return heuristik(node.mapNodeSekarang,this.min_max)
-    node.valueAnak = []
-    var children = node.returnAnak()
-
+    node.valueAnak = array();
+    var children = node.returnAnak();
     if (this.min_max == 1){  /* max */
         valueSekarang = min_val;
         for (child in node.children){
@@ -42,13 +41,11 @@ function heuristik(node, min_max=1){
     var simpanMapAsli = map;
 	map = node.mapYangDipakai;
 	if(node.treeNode.giliran == PIHAK_MERAH){
-		return CariJarak(merahStart,merahEnd,PIHAK_MERAH) - CariJarak(biruStart,biruEnd,PIHAK_BIRU);
+		return CariJarak(merahStart,merahEnd,PIHAK_MERAH).cost - CariJarak(biruStart,biruEnd,PIHAK_BIRU).cost;
 	}
 	else if(node.treeNode.giliran == PIHAK_BIRU){
-		return CariJarak(biruStart,biruEnd,PIHAK_BIRU) - CariJarak(merahStart,merahEnd,PIHAK_MERAH);
+		return CariJarak(biruStart,biruEnd,PIHAK_BIRU).cost - CariJarak(merahStart,merahEnd,PIHAK_MERAH).cost;
 	}
-	
-	
 	map = simpanMapAsli;
 }
 function gameTree(giliran,mapNodeSekarang,x,y,anak){
@@ -92,8 +89,7 @@ function gameTree(giliran,mapNodeSekarang,x,y,anak){
 	 * @param ke : merahEnd atau merahStart
 	 */
 	var cariLokasiAnak = function(dari,ke,pihak){
-		simpanCariJarak = CariJarak(dari,ke,pihak).cost;
-		
+		simpanCariJarak = CariJarak(dari,ke,pihak).cost;	
 		var simpanMapAsli = map;
 		var lokasiXYAnak = array();
 		map = this.mapNodeSekarang;
@@ -139,7 +135,7 @@ function gameTree(giliran,mapNodeSekarang,x,y,anak){
 		for (xy in lokasiAnak){
 			for (koordinat in xy){
 				simpanMap[koordinat[0]][koordinat[1]].milik = this.treeNode.giliran;
-				var node = new gameTree(this.treeNode.giliran,simpanMap,this.treeNode.x,this.treeNode.y,null));
+				var node = new gameTree(this.treeNode.giliran,simpanMap,this.treeNode.x,this.treeNode.y,null);
 				nodeAnak.push(node);
 				simpanMmap = this.mapNodeSekarang;
 			}
@@ -152,7 +148,7 @@ function gameTree(giliran,mapNodeSekarang,x,y,anak){
 	 * @param ke : merahEnd atau merahStart
 	 */
 	 
-	var cekMenang(){
+	function cekMenang(){
 		var simpanMapAsli = map;
 		map = this.mapNodeSekarang;
 		var dari = null;
@@ -165,7 +161,7 @@ function gameTree(giliran,mapNodeSekarang,x,y,anak){
 			dari = merahStart;
 			ke = merahEnd;
 		}
-		if(CariJarak(dari,ke,this.treeNode.giliran) == -1){
+		if(CariJarak(dari,ke,this.treeNode.giliran).cost == -1){
 			map = simpanMapAsli;
 			return true;
 		}
@@ -179,38 +175,37 @@ function gameTree(giliran,mapNodeSekarang,x,y,anak){
 	 * @param dari : merahStart atau biruStart
 	 * @param ke : merahEnd atau merahStart
 	 */
-	var returnTitikSerang(){
+	function returnTitikSerang(){
 		var posisi_bidak = array();
 		for(i = 0;i < besar; i++){
 			for(j = 0;j < besar; j++){
 				if(map[j][i].milik == this.treeNode.giliran){
-					posisi_x_bidak.push([x,y]);
+					posisi_bidak.push([x,y]);
 				}
 			}
-		}
-		
+		}	
         for (xy in posisi_bidak){
-            for koordinat in xy{
+            for (koordinat in xy){
                 var koordinat_jembatan = returnJembatan(koordinat[0], koordinat[1], this.treeNode.giliran)
                 if (koordinat_jembatan != [-1,-1])
-                    return bridge_cord
+                    return bridge_cord;
 			}
 		}
 		return titikXYRandom();
 	}
 	
-	var titikXYRandom(){
-		simpanMapSekarang = map;
-		rand_x = Math.floor(Math.random() * besar);
-		rand_y = Math.floor(Math.random() * besar);
+	function titikXYRandom(){
+		var simpanMapSekarang = map;
+		var rand_x = Math.floor(Math.random() * besar);
+		var rand_y = Math.floor(Math.random() * besar);
 		while (simpanMapSekarang[rand_x][rand_y] != PIHAK_NULL){
 			rand_x = Math.floor(Math.random() * besar);
 			rand_y = Math.floor(Math.random() * besar);
 		}
-		return (rand_x, rand_y)
+		return (rand_x, rand_y);
 	}
 	
-	var returnJembatan(x,y,pihak){
+	function returnJembatan(x,y,pihak){
 		if(pihak == PIHAK_MERAH){
 			if(x%2==0){
 				if(y>=1 && x>=2){
@@ -251,5 +246,6 @@ function gameTree(giliran,mapNodeSekarang,x,y,anak){
 				}
 			}
 		}
+		else return [-1,-1];
 	}
 }
