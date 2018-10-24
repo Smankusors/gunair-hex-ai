@@ -8,25 +8,8 @@ var giliran = PIHAK_MERAH;
 function klikPetak(event) {
     var el = $(event.currentTarget);
     var data = el.data();
-    var petak = map[data.x][data.y];
-    if (petak.milik == PIHAK_NULL) {
-        petak.milik = giliran;
-        jumlahMilikKolom[data.x][giliran]++;
-        jumlahMilikBaris[data.y][giliran]++;
-        jumlahMilikDiagonal[petak.diagonal][giliran]++;
-        giliran = (giliran + 1) % 2;
-    }
-    switch (petak.milik) {
-        case PIHAK_MERAH:
-            $(petak.element).css("background-color", "red");
-            break;
-        case PIHAK_BIRU:
-            $(petak.element).css("background-color", "blue");
-            break;
-        case PIHAK_HIJAU:
-            $(petak.element).css("background-color", "green");
-            break;
-    }
+    setMilikPetak(data.x, data.y, giliran);
+    giliran = (giliran + 1) % 2;
     remainingRed = CariJarak(merahStart, merahEnd, PIHAK_MERAH).cost;
     remainingBlue = CariJarak(biruStart, biruEnd, PIHAK_BIRU).cost;
     $("#merahR").text(remainingRed);
@@ -38,11 +21,35 @@ function klikPetak(event) {
 }
 
 /**
- * Membentuk class DecisionProrityNode yang digunakan untuk menentukan
- * langkah selanjutnya untuk AI.
- * @param {int} step Step keberapa ini?
+ * Mengeset petak pada posisi [x] dan [y] menjadi milik nya [pihak]
+ * @param {int} x Posisi x petak
+ * @param {int} y Posisi y petak
+ * @param {int} pihak Pihak siapa ini? {PIHAK_NULL, PIHAK_MERAH, PIHAK_BIRU}
  */
-function DecisionProrityNode(step) {
-
-
+function setMilikPetak(x, y, pihak){
+    var petak = map[x][y];
+    petak.milik = pihak;
+    if (pihak != PIHAK_NULL) {
+        jumlahMilikKolom[x][pihak]++;
+        jumlahMilikBaris[y][pihak]++;
+        jumlahMilikDiagonal[petak.diagonal][pihak]++;
+    } else {
+        jumlahMilikKolom[x][pihak]--;
+        jumlahMilikBaris[y][pihak]--;
+        jumlahMilikDiagonal[petak.diagonal][pihak]--;
+    }
+    switch (pihak) {
+        case PIHAK_MERAH:
+            $(petak.element).css("background-color", "red");
+            break;
+        case PIHAK_BIRU:
+            $(petak.element).css("background-color", "blue");
+            break;
+        case PIHAK_HIJAU:
+            $(petak.element).css("background-color", "green");
+            break;
+        default:
+            $(petak.element).css("background-color", "");
+            break;
+    }
 }

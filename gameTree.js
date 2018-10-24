@@ -168,34 +168,7 @@ function gameTree(giliran,mapNodeSekarang,x,y,anak){
 		map = simpanMapAsli;
 		return false;
 	}
-	/**
-	 * menyimpan lokasi semua bidak yang sudah ditaruh di papan
-	 * lalu loop sampai ada titik yang bisa taruh menggunakan jembatan
-	 * jika tidak ada titik yang bisa menggunakan jembatan, komputer akan return nilai x dan y random
-	 * @param dari : merahStart atau biruStart
-	 * @param ke : merahEnd atau merahStart
-	 */
-	function mewarnaiAI(x,y){
-		var petak = map[x][y];
-		if (petak.milik == PIHAK_NULL) {
-			petak.milik = giliran;
-			jumlahMilikKolom[x][giliran]++;
-			jumlahMilikBaris[y][giliran]++;
-			jumlahMilikDiagonal[petak.diagonal][giliran]++;
-			giliran = (giliran + 1) % 2;
-		}
-		switch (petak.milik) {
-			case PIHAK_MERAH:
-				$(petak.element).css("background-color", "red");
-				break;
-			case PIHAK_BIRU:
-				$(petak.element).css("background-color", "blue");
-				break;
-			case PIHAK_HIJAU:
-				$(petak.element).css("background-color", "green");
-				break;
-		}
-	}
+	
 	function returnTitikSerang(){
 		var posisi_bidak = array();
 		for(i = 0;i < besar; i++){
