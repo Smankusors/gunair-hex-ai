@@ -28,15 +28,19 @@ function klikPetak(event) {
  */
 function setMilikPetak(x, y, pihak){
     var petak = map[x][y];
-    petak.milik = pihak;
-    if (pihak != PIHAK_NULL) {
-        jumlahMilikKolom[x][pihak]++;
-        jumlahMilikBaris[y][pihak]++;
-        jumlahMilikDiagonal[petak.diagonal][pihak]++;
+    if (petak.milik != pihak) {
+        petak.milik = pihak;
+        if (pihak != PIHAK_NULL) {
+            jumlahMilikKolom[x][pihak]++;
+            jumlahMilikBaris[y][pihak]++;
+            jumlahMilikDiagonal[petak.diagonal][pihak]++;
+        } else {
+            jumlahMilikKolom[x][pihak]--;
+            jumlahMilikBaris[y][pihak]--;
+            jumlahMilikDiagonal[petak.diagonal][pihak]--;
+        }
     } else {
-        jumlahMilikKolom[x][pihak]--;
-        jumlahMilikBaris[y][pihak]--;
-        jumlahMilikDiagonal[petak.diagonal][pihak]--;
+        console.info("Uh.. ngapain set milik jika sama?", petak, pihak);
     }
     switch (pihak) {
         case PIHAK_MERAH:
