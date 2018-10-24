@@ -175,12 +175,33 @@ function gameTree(giliran,mapNodeSekarang,x,y,anak){
 	 * @param dari : merahStart atau biruStart
 	 * @param ke : merahEnd atau merahStart
 	 */
+	function mewarnaiAI(x,y){
+		var petak = map[x][y];
+		if (petak.milik == PIHAK_NULL) {
+			petak.milik = giliran;
+			jumlahMilikKolom[x][giliran]++;
+			jumlahMilikBaris[y][giliran]++;
+			jumlahMilikDiagonal[petak.diagonal][giliran]++;
+			giliran = (giliran + 1) % 2;
+		}
+		switch (petak.milik) {
+			case PIHAK_MERAH:
+				$(petak.element).css("background-color", "red");
+				break;
+			case PIHAK_BIRU:
+				$(petak.element).css("background-color", "blue");
+				break;
+			case PIHAK_HIJAU:
+				$(petak.element).css("background-color", "green");
+				break;
+		}
+	}
 	function returnTitikSerang(){
 		var posisi_bidak = array();
 		for(i = 0;i < besar; i++){
 			for(j = 0;j < besar; j++){
 				if(map[j][i].milik == this.treeNode.giliran){
-					posisi_bidak.push([x,y]);
+					posisi_bidak.push([map[j][i].x,map[j][i].y]);
 				}
 			}
 		}	
@@ -188,7 +209,7 @@ function gameTree(giliran,mapNodeSekarang,x,y,anak){
             for (koordinat in xy){
                 var koordinat_jembatan = returnJembatan(koordinat[0], koordinat[1], this.treeNode.giliran)
                 if (koordinat_jembatan != [-1,-1])
-                    return bridge_cord;
+                    return koordinat_jembatan;
 			}
 		}
 		return titikXYRandom();
