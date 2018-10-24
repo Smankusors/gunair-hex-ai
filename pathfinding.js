@@ -135,7 +135,7 @@ function CariJarak(dari, ke, pihak) {
             }
         });
         if (queue.isEmpty())
-            return -1;
+            return {cost: -1, dikunjungin: []};
         nodeSekarang = queue.pop();
     }
 }
