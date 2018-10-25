@@ -10,9 +10,6 @@ class MinimaxTreeNode {
 }
 
 function minimax_ab(node, depth, min_val, max_val, min_max){
-	
-    
-        
     var dari = "";
 	var ke = "";
 	if(node.giliran == PIHAK_MERAH){

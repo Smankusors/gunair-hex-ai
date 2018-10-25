@@ -49,8 +49,9 @@
         </style>
     </head>
     <body>
-        <center><div id="merk"></div></center>
+        <center><div id="merk"></div></center>   
         <center><h4><div style="font-family:'Courier New', Courier, monospace; color:white; font-weight: 100">By : 216116493, 216116497, 216116522</div></h4></center>
+        <center style="font-family:'Courier New', Courier, monospace; color:white; font-weight: 100">Board Size : <input type='number' id="besarPapan"></center>
         <div id='difficulty'> 
             <h2><div style="font-family:'Courier New', Courier, monospace; color:white; font-weight: 100">Difficulty : </div></h2>
             <div id='easy' class='tombolDifficulty' ></div>&nbsp;&nbsp;&nbsp;&nbsp;
@@ -73,30 +74,36 @@
         $('#easy').click(function() {
             document.getElementById('emusic').play();
             varDepth=3;
+            besar = $("#besarPapan").val();
             setInterval(function(){
                 ctr--;
                 if(ctr==0){
                     window.location.href = "index.html";
+                    stop();
                 }
             },1000);
         });
         $('#normal').click(function() {
             document.getElementById('nmusic').play();
             varDepth=5;
+            besar = $("#besarPapan").val();
             setInterval(function(){
                 ctr--;
                 if(ctr==0){
                     window.location.href = "index.html";
+                    stop();
                 }
             },1000);
         });
         $('#hard').click(function() {
             document.getElementById('hmusic').play();
             varDepth=7;
+            besar = $("#besarPapan").val();
             setInterval(function(){
                 ctr--;
                 if(ctr==0){
                     window.location.href = "index.html";
+                    stop();
                 }
             },1000);
         });

@@ -30,6 +30,7 @@ function klikPetak(event) {
         alert("Biru menang!");
     else if (remainingBlue == -1)
         alert("merah menang!");
+    gantiGiliran();
 }
 
 /**

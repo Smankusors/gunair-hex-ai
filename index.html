@@ -3,11 +3,59 @@
         <meta charset="UTF-8">
         <script src="jquery.min.js"></script>
         <style>
+            #mainmenu{
+                width:100%; height:100%;
+                background-size:100% 100%;
+                background-image:url('wallpaper_mm.jpg');
+            }
+            #difficulty{
+    
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 100%;
+                height: 100vh;
+            }
+            .tombolDifficulty{
+                position:relative;
+                display:inline-block;
+                background-size:100% 100%;
+                width:75px; height:50px;
+            }
+            #easy{
+                background-image:url('easy.png');
+            }
+            #normal{
+                background-image:url('normal.png');
+            }
+            #hard{
+                background-image:url('hard.png');
+            }
+            #easy:hover{
+                width:100px; 
+                transition:width 0.2s;
+            }
+            #normal:hover{
+                width:100px; 
+                transition:width 0.2s;
+            }
+            #hard:hover{
+                width:100px; 
+                transition:width 0.2s;
+            }
+            #merk{
+                width:200px; height:50px;
+                background-size:100% 100%;
+                background-image:url('buat.png');
+            }
+        </style>
+        <style>
         html, body {
             margin: 0;
             padding: 0;
         }
-        body{
+        #game{
+            width:100%; height:100%;
             background-image: url("wallpaper_play.jpg");
             background-size: 100% 100%;
         }
@@ -45,17 +93,38 @@
             height:50px;
             color:black;
         }
-        </style>
-        <div id='atas'><center><img src="buat.png" style='background-size: 100% 100%'></center></div>
-        <div id="giliranSiapa"></div>
+        #giliranSiapa{
+            font-family: 'Courier New', Courier, monospace;
+        }
+        </style>      
     </head>
     <body> 
-        <center><div class="map"></div></center>
-        <div style="position: fixed; right: 0; top: 0">
-            <h1 id="merahR" style="color: red"></h1>
-            <h1 id="biruR" style="color: blue"></h1>
+        <div id="mainMenu">
+            <center><div id="merk"></div></center>   
+            <center><h4><div style="font-family:'Courier New', Courier, monospace; color:white; font-weight: 100">By : 216116493, 216116497, 216116522</div></h4></center>
+            <center style="font-family:'Courier New', Courier, monospace; color:white; font-weight: 100">Board Size : <input type='number' id="besarPapan"></center>
+            <div id='difficulty'> 
+                <h2><div style="font-family:'Courier New', Courier, monospace; color:white; font-weight: 100">Difficulty : </div></h2>
+                <div id='easy' class='tombolDifficulty' ></div>&nbsp;&nbsp;&nbsp;&nbsp;
+                <div id='normal' class='tombolDifficulty'></div>&nbsp;&nbsp;&nbsp;&nbsp;
+                <div id='hard' class='tombolDifficulty'></div>
+            </div>
+            <audio id='emusic'> <source src="easyclick.mp3" type="audio/mp3"></audio>
+            <audio id='nmusic'> <source src="mediumclick.mp3" type="audio/mp3"></audio>
+            <audio id='hmusic'> <source src="hardclick.mp3" type="audio/mp3"></audio>
+            <audio id='mmmusic'> <source src="mm_music.mp3" type="audio/mp3"></audio>
         </div>
-        <audio id='playmusic'><source src="playgame.mp3" type="audio/mp3"></audio>
+        <div id="game">
+            <div id='atas'><center><img src="buat.png" style='background-size: 100% 100%'></center></div>
+            <center><div id="giliranSiapa"></div></center>
+            <center><div class="map"></div></center>
+            <div style="position: fixed; right: 0; top: 0">
+                <h1 id="merahR" style="color: red"></h1>
+                <h1 id="biruR" style="color: blue"></h1>
+            </div>
+            <audio id='playmusic'><source src="playgame.mp3" type="audio/mp3"></audio>
+        </div>
+        
     </body>
     <!--
         var global :
@@ -68,19 +137,78 @@
     <script src="pathfinding.js"></script>
     <script src="gameTree.js"></script>
     <script>
-        var size = $(document).height()/2;
-        document.getElementById('playmusic').play();
-        $("#giliranSiapa").html("<center>Merah</center>");
-        if($("#giliranSiapa").html("Merah")){
-            $("#giliranSiapa").css("color",'red');
-        }
-        else{
-            $("#giliranSiapa").css("color",'blue');
-        }
-		$(".map").css("top",size/2);
+        $("#game").hide();
     </script>
     <script>
-        initMap();
+        var varDepth=0;
+        document.getElementById('mmmusic').play();
+        var ctr=2;
+        function stop(){
+            var sounds = document.getElementsByTagName('audio');
+            for(i=0; i<sounds.length; i++) sounds[i].pause();
+        }
+        $('#easy').click(function() {
+            document.getElementById('emusic').play();
+            varDepth=3;
+            besar = $("#besarPapan").val();
+            setInterval(function(){
+                ctr--;
+                if(ctr==0){
+                    stop();
+                    initMap();
+                    $("#mainMenu").fadeOut(1000);
+                    $("#game").fadeIn(3000);
+                    document.getElementById('playmusic').play();
+                }
+            },1000);
+        });
+        $('#normal').click(function() {
+            document.getElementById('nmusic').play();
+            varDepth=5;
+            besar = $("#besarPapan").val();
+            setInterval(function(){
+                ctr--;
+                if(ctr==0){
+                    stop();
+                    initMap();
+                    $("#mainMenu").fadeOut(1000);
+                    $("#game").fadeIn(3000);
+                    document.getElementById('playmusic').play();
+                }
+            },1000);
+        });
+        $('#hard').click(function() {
+            document.getElementById('hmusic').play();
+            varDepth=7;
+            besar = $("#besarPapan").val();
+            setInterval(function(){
+                ctr--;
+                if(ctr==0){
+                    stop();
+                    initMap();
+                    $("#mainMenu").fadeOut(1000);
+                    $("#game").fadeIn(3000);
+                    document.getElementById('playmusic').play();;
+                }
+            },1000);
+        });
+            
+    </script>
+    <script>
+        var size = $(document).height()/2;
+        $("#giliranSiapa").html("Merah");
+        $("#giliranSiapa").css("color",'red');
+        $(".map").css("top",0);
+        function gantiGiliran(){
+            if($("#giliranSiapa").html("Merah")){
+                $("#giliranSiapa").html("Biru");
+                $("#giliranSiapa").css("color",'blue');
+            }
+            else{
+                $("#giliranSiapa").html("Merah");
+                $("#giliranSiapa").css("color",'red');
+            }
+        }
     </script>
     
 </html>

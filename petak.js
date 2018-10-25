@@ -76,11 +76,11 @@ var jumlahMilikKolom = [];
 var jumlahMilikDiagonal = [];
 
 // Inisialisasi besarnya elemen map
-$(".map").css("width", besar * 40);
-$(".map").css("height", besar * 60);
 
 function initMap() {
     // Inisialisasi variabel map
+    $(".map").css("width", besar * 37);
+    $(".map").css("height", besar * 56);
     for (var x = 0; x < besar; x++) {
         map[x] = [];
         jumlahMilikBaris[x] = [0, 0, 0];
