@@ -75,12 +75,33 @@ var jumlahMilikKolom = [];
  */
 var jumlahMilikDiagonal = [];
 
-// Inisialisasi besarnya elemen map
+/**
+ * Node petak tersembunyi untuk pihak merah (disebelah kiri)
+ * @type {Petak}
+ */
+var merahStart = null;
+/**
+ * Node petak tersembunyi untuk pihak merah (disebelah kanan)
+ * @type {Petak}
+ */
+var merahEnd = null;
+/**
+ * Node petak tersembunyi untuk pihak biru (disebelah atas)
+ * @type {Petak}
+ */
+var biruStart = null;
+/**
+ * Node petak tersembunyi untuk pihak biru (disebelah bawah)
+ * @type {Petak}
+ */
+var biruEnd = null;
 
 function initMap() {
-    // Inisialisasi variabel map
+    // Inisialisasi besarnya elemen map
     $(".map").css("width", besar * 37);
     $(".map").css("height", besar * 56);
+    
+    // Inisialisasi variabel map
     for (var x = 0; x < besar; x++) {
         map[x] = [];
         jumlahMilikBaris[x] = [0, 0, 0];
@@ -122,11 +143,11 @@ function initMap() {
         }
     }
     // Inisialisasi pos mulai dan pos akhir pada masing masing warna
-    var merahStart = new Petak(-1, null);
-    var merahEnd = new Petak(besar, null);
+    merahStart = new Petak(-1, null);
+    merahEnd = new Petak(besar, null);
     merahStart.milik = merahEnd.milik = PIHAK_MERAH;
-    var biruStart = new Petak(null, -1);
-    var biruEnd = new Petak(null, besar);
+    biruStart = new Petak(null, -1);
+    biruEnd = new Petak(null, besar);
     biruStart.milik = biruEnd.milik = PIHAK_BIRU;
     // Inisialisasi tetangga untuk pos mulai dan pos akhir
     for (var i = 0; i < besar; i++) {
@@ -163,7 +184,6 @@ function initMap() {
         merahEnd,
         biruEnd
     ];
-
 
     for (var x = 1; x < besar - 1; x++) {
         // Inisialisasi tetangga untuk sisi atas kiri bawah kanan
