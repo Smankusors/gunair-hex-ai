@@ -150,6 +150,7 @@
             document.getElementById('emusic').play();
             varDepth=3;
             besar = $("#besarPapan").val();
+            $("#mainMenu").fadeOut(1000);
             setInterval(function(){
                 ctr--;
                 if(ctr==0){
@@ -165,12 +166,13 @@
             document.getElementById('nmusic').play();
             varDepth=5;
             besar = $("#besarPapan").val();
+            $("#mainMenu").fadeOut(1000);
             setInterval(function(){
                 ctr--;
                 if(ctr==0){
                     stop();
                     initMap();
-                    $("#mainMenu").fadeOut(1000);
+
                     $("#game").fadeIn(3000);
                     document.getElementById('playmusic').play();
                 }
@@ -180,12 +182,12 @@
             document.getElementById('hmusic').play();
             varDepth=7;
             besar = $("#besarPapan").val();
+            $("#mainMenu").fadeOut(1000);
             setInterval(function(){
                 ctr--;
                 if(ctr==0){
                     stop();
-                    initMap();
-                    $("#mainMenu").fadeOut(1000);
+                    initMap();               
                     $("#game").fadeIn(3000);
                     document.getElementById('playmusic').play();;
                 }
