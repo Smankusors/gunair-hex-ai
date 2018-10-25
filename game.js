@@ -4,16 +4,28 @@ const PIHAK_BIRU = 1;
 const PIHAK_HIJAU = 2;
 
 var giliran = PIHAK_MERAH;
+var nodeSekarang = new MinimaxTreeNode(PIHAK_BIRU,null,null,null,null,null);
 
+
+var nodeTerpilih = null;
 function klikPetak(event) {
     var el = $(event.currentTarget);
     var data = el.data();
     setMilikPetak(data.x, data.y, giliran);
-    giliran = (giliran + 1) % 2;
     remainingRed = CariJarak(merahStart, merahEnd, PIHAK_MERAH).cost;
     remainingBlue = CariJarak(biruStart, biruEnd, PIHAK_BIRU).cost;
+    nodeSekarang = new MinimaxTreeNode(PIHAK_BIRU,null,null,null,null,null);
+    minimax_ab(nodeSekarang, 5, Number.MIN_SAFE_INTEGER, Number.MAX_SAFE_INTEGER, 1);
+    nodeTerpilih = null;
+    nodeSekarang.anak.forEach(child => {
+        if(nodeSekarang.alpha == child.beta){
+            nodeTerpilih = child;
+        }
+    });
+    setMilikPetak(nodeTerpilih.x,nodeTerpilih.y,PIHAK_BIRU);
     $("#merahR").text(remainingRed);
     $("#biruR").text(remainingBlue);
+    
     if (remainingRed == -1)
         alert("Biru menang!");
     else if (remainingBlue == -1)
