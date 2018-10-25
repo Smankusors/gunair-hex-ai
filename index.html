@@ -125,7 +125,7 @@
             <audio id='hmusic'> <source src="hardclick.mp3" type="audio/mp3"></audio>
             <audio id='mmmusic'> <source src="mm_music.mp3" type="audio/mp3"></audio>
         </div>
-        <div id="game">
+        <div id="game" style="display: none">
             <div id='atas'><center><img src="buat.png" style='background-size: 100% 100%'></center></div>
             <center><div id="giliranSiapa"></div></center>
             <center><div class="map"></div></center>
@@ -146,9 +146,6 @@
     <script src="petak.js"></script>
     <script src="prorityqueue.js"></script>
     <script src="pathfinding.js"></script>
-    <script>
-        $("#game").hide();
-    </script>
     <script>
         var duaPlayer = false;
         var varDepth=0;
@@ -219,9 +216,6 @@
                 }
             },1000);
         });
-            
-    </script>
-    <script>
         var size = $(document).height()/2;
         $("#giliranSiapa").html("Merah");
         $("#giliranSiapa").css("color",'red');
