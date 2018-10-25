@@ -10,7 +10,10 @@ class MinimaxTreeNode {
 }
 
 function minimax_ab(node, depth, min_val, max_val, min_max){
-    var dari = "";
+	if (depth == 0){
+		return heuristik(node);
+	}
+	var dari = "";
 	var ke = "";
 	if(node.giliran == PIHAK_MERAH){
 		dari = merahStart;
@@ -23,17 +26,12 @@ function minimax_ab(node, depth, min_val, max_val, min_max){
 	var cekMenang = CariJarak(dari,ke,node.giliran);
 	if(cekMenang == -1){
 		if(min_max == 1)
-			return 100;
-		else
 			return -100;
+		else
+			return 100;
 	}
 	var simpanCariJarak = CariJarak(dari,ke,node.giliran).cost;
-	if (depth == 0){
-		if(node.x == Math.floor(besar/2) && node.y == Math.floor(besar/2) && simpanCariJarak == besar){
-			return 100;
-		}
-		return heuristik(node,min_max);
-	}
+	
 	var alpha = null;
 	var beta = null;
 	var adaAnak = false;
@@ -138,17 +136,21 @@ function minimax_ab(node, depth, min_val, max_val, min_max){
 	else if(min_max == 0 && adaAnak == false)
 		return beta;
 }
-function heuristik(){
+function heuristik(node){
     /**
 	 * pengurangan sisa petak sampai menang milik AI dan player
 	 */
-	return CariJarak(biruStart,biruEnd,PIHAK_BIRU).cost - CariJarak(merahStart,merahEnd,PIHAK_MERAH).cost;
+	if(node.giliran == PIHAK_BIRU)
+		return CariJarak(biruStart,biruEnd,PIHAK_BIRU).cost - CariJarak(merahStart,merahEnd,PIHAK_MERAH).cost;
+	else if(node.giliran == PIHAK_MERAH){
+		return CariJarak(merahStart,merahEnd,PIHAK_MERAH).cost - CariJarak(biruStart,biruEnd,PIHAK_BIRU).cost;
+	}
 }
 function returnJembatan(x,y,pihak){
 	if(pihak == PIHAK_MERAH){
 		if(x%2==0){
 			if(y>=1 && x>=2){
-				if(map[x-1][y] != PIHAK_BIRU && map[x-1][y-1] != PIHAK_BIRU){
+				if(map[x-1][y] != PIHAK_BIRU || map[x-1][y-1] != PIHAK_BIRU){
 					if(map[x-2][y-1] == PIHAK_NULL){
 						return [x-2,y-1];
 					}
@@ -157,7 +159,7 @@ function returnJembatan(x,y,pihak){
 		}
 		else if(x%2==1){
 			if(y<=besar-2 && x >= 2){
-				if(map[x-1][y] != PIHAK_BIRU && map[x-1][y+1] != PIHAK_BIRU){
+				if(map[x-1][y] != PIHAK_BIRU || map[x-1][y+1] != PIHAK_BIRU){
 					if(map[x-2][y] == PIHAK_NULL){
 						return [x-2,y];
 					}
@@ -168,7 +170,7 @@ function returnJembatan(x,y,pihak){
 	else if(pihak == PIHAK_BIRU){
 		if(y%2==0){
 			if(y<=besar-3 && x <= besar-2){
-				if(map[x][y+1] != PIHAK_MERAH && map[x+1][y+1] != PIHAK_MERAH){
+				if(map[x][y+1] != PIHAK_MERAH || map[x+1][y+1] != PIHAK_MERAH){
 					if(map[x+1][y+2] == PIHAK_NULL){
 						return [x+1,y+2];
 					}
@@ -177,7 +179,7 @@ function returnJembatan(x,y,pihak){
 		}
 		else if(y%2==1){
 			if(y<=besar-3 && x <= besar-2){
-				if(map[x][y+1] != PIHAK_MERAH && map[x+1][y+1] != PIHAK_MERAH){
+				if(map[x][y+1] != PIHAK_MERAH || map[x+1][y+1] != PIHAK_MERAH){
 					if(map[x][y+2] == PIHAK_NULL){
 						return [x,y+2];
 					}
