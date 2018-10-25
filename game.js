@@ -11,7 +11,8 @@ var nodeTerpilih = null;
 function klikPetak(event) {
     var el = $(event.currentTarget);
     var data = el.data();
-    setMilikPetak(data.x, data.y, giliran, true);
+    let sukses = setMilikPetak(data.x, data.y, giliran, true);
+    if (!sukses) return;
     remainingRed = CariJarak(merahStart, merahEnd, PIHAK_MERAH).cost;
     remainingBlue = CariJarak(biruStart, biruEnd, PIHAK_BIRU).cost;
     nodeSekarang = new MinimaxTreeNode(PIHAK_BIRU,null,null,null,null,null);
@@ -22,7 +23,7 @@ function klikPetak(event) {
             nodeTerpilih = child;
         }
     });
-    setMilikPetak(nodeTerpilih.x,nodeTerpilih.y,PIHAK_BIRU);
+    setMilikPetak(nodeTerpilih.x,nodeTerpilih.y,PIHAK_BIRU, true);
     $("#merahR").text(remainingRed);
     $("#biruR").text(remainingBlue);
     
@@ -39,19 +40,23 @@ function klikPetak(event) {
  * @param {int} y Posisi y petak
  * @param {int} pihak Pihak siapa ini? {PIHAK_NULL, PIHAK_MERAH, PIHAK_BIRU}
  * @param {Boolean} warnai Apakah petaknya diwarnai?
+ * @returns {Boolean} apakah set milik petak sukses?
  */
 function setMilikPetak(x, y, pihak, warnai = false){
     var petak = map[x][y];
     if (petak.milik != pihak) {
-        petak.milik = pihak;
         if (pihak != PIHAK_NULL) {
-            jumlahMilikKolom[x][pihak]++;
-            jumlahMilikBaris[y][pihak]++;
-            jumlahMilikDiagonal[petak.diagonal][pihak]++;
+            if (petak.milik == PIHAK_NULL) {
+                petak.milik = pihak;
+                jumlahMilikKolom[x][pihak]++;
+                jumlahMilikBaris[y][pihak]++;
+                jumlahMilikDiagonal[petak.diagonal][pihak]++;
+            } else return false;
         } else {
+            petak.milik = PIHAK_NULL;
             jumlahMilikKolom[x][pihak]--;
             jumlahMilikBaris[y][pihak]--;
-            jumlahMilikDiagonal[petak.diagonal][pihak]--;
+            jumlahMilikDiagonal[petak.diagonal][pihak]--;    
         }
     } else {
         console.info("Uh.. ngapain set milik jika sama?", petak, pihak);
@@ -72,5 +77,6 @@ function setMilikPetak(x, y, pihak, warnai = false){
                 break;
         }
     }
+    return true;
 }
 
