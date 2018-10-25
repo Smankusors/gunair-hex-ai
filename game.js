@@ -11,7 +11,7 @@ var nodeTerpilih = null;
 function klikPetak(event) {
     var el = $(event.currentTarget);
     var data = el.data();
-    setMilikPetak(data.x, data.y, giliran);
+    setMilikPetak(data.x, data.y, giliran, true);
     remainingRed = CariJarak(merahStart, merahEnd, PIHAK_MERAH).cost;
     remainingBlue = CariJarak(biruStart, biruEnd, PIHAK_BIRU).cost;
     nodeSekarang = new MinimaxTreeNode(PIHAK_BIRU,null,null,null,null,null);
@@ -38,8 +38,9 @@ function klikPetak(event) {
  * @param {int} x Posisi x petak
  * @param {int} y Posisi y petak
  * @param {int} pihak Pihak siapa ini? {PIHAK_NULL, PIHAK_MERAH, PIHAK_BIRU}
+ * @param {Boolean} warnai Apakah petaknya diwarnai?
  */
-function setMilikPetak(x, y, pihak){
+function setMilikPetak(x, y, pihak, warnai = false){
     var petak = map[x][y];
     if (petak.milik != pihak) {
         petak.milik = pihak;
@@ -55,19 +56,21 @@ function setMilikPetak(x, y, pihak){
     } else {
         console.info("Uh.. ngapain set milik jika sama?", petak, pihak);
     }
-    switch (pihak) {
-        case PIHAK_MERAH:
-            $(petak.element).css("background-color", "red");
-            break;
-        case PIHAK_BIRU:
-            $(petak.element).css("background-color", "blue");
-            break;
-        case PIHAK_HIJAU:
-            $(petak.element).css("background-color", "green");
-            break;
-        default:
-            $(petak.element).css("background-color", "");
-            break;
+    if (warnai) {
+        switch (pihak) {
+            case PIHAK_MERAH:
+                $(petak.element).css("background-color", "red");
+                break;
+            case PIHAK_BIRU:
+                $(petak.element).css("background-color", "blue");
+                break;
+            case PIHAK_HIJAU:
+                $(petak.element).css("background-color", "green");
+                break;
+            default:
+                $(petak.element).css("background-color", "");
+                break;
+        }
     }
 }
 
