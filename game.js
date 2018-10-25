@@ -57,3 +57,4 @@ function setMilikPetak(x, y, pihak){
             break;
     }
 }
+

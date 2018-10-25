@@ -7,6 +7,10 @@
             margin: 0;
             padding: 0;
         }
+        body{
+            background-image: url("wallpaper_play.jpg");
+            background-size: 100% 100%;
+        }
         .map {
             position: relative;
             border-top: 3px solid blue;
@@ -16,20 +20,19 @@
         }
         .mapp {
             position: relative;
-            left: 50%;
         }
         .petak {
             position: absolute;
             width: 40px;
             height: 35px;
             clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
-            background-color: lightgray;    
+            background-color: gray;    
         }
         .box {
             position: absolute;
             width: 40px;
             height: 35px;
-            background-color: lightgray;    
+            background-color: gray;    
         }
         .petak.merah {
             background-color: red;
@@ -37,15 +40,22 @@
         .petak.biru {
             background-color: blue;
         }
+        #atas{
+            width:100%;
+            height:50px;
+            color:black;
+        }
         </style>
+        <div id='atas'><center><img src="buat.png" style='background-size: 100% 100%'></center></div>
+        <div id="giliranSiapa"></div>
     </head>
-    <body>
-        <div class="map"></div>
-        <div class="mapp"></div>
+    <body> 
+        <center><div class="map"></div></center>
         <div style="position: fixed; right: 0; top: 0">
             <h1 id="merahR" style="color: red"></h1>
             <h1 id="biruR" style="color: blue"></h1>
         </div>
+        <audio id='playmusic'><source src="playgame.mp3" type="audio/mp3"></audio>
     </body>
     <!--
         var global :
@@ -56,5 +66,16 @@
     <script src="prorityqueue.js"></script>
     <script src="pathfinding.js"></script>
     <script src="gameTree.js"></script>
-    
+    <script>
+        var size = $(document).height()/2;
+        document.getElementById('playmusic').play();
+        $("#giliranSiapa").html("<center>Merah</center>");
+        if($("#giliranSiapa").html("Merah")){
+            $("#giliranSiapa").css("color",'red');
+        }
+        else{
+            $("#giliranSiapa").css("color",'blue');
+        }
+		$(".map").css("top",size/2);
+    </script>
 </html>
