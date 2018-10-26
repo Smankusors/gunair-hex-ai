@@ -105,8 +105,8 @@ function CariJarak(dari, ke, pihak) {
     while (!queue.isEmpty()) {
         nodeSekarang = queue.pop();
         var petakSekarang = nodeSekarang.petakDari;
-        var prevColor = $(petakSekarang.element).css("background-color");
         /*
+        var prevColor = $(petakSekarang.element).css("background-color");
         if (pihak == PIHAK_MERAH) {
             $(petakSekarang.element).css("background-color", "orange");
         } else {
@@ -119,11 +119,15 @@ function CariJarak(dari, ke, pihak) {
             var dikunjungin = [];
             while (nodeSekarang.lewat != null) {
                 let petak = nodeSekarang.petakDari;
-                if (petak.x != null && petak.y != null && petak.milik == PIHAK_NULL)
+                if (petak.x != null && petak.y != null && petak.milik == PIHAK_NULL) {
+                    //console.log(petak.x, petak.y, petak.milik);
                     dikunjungin.push(nodeSekarang.petakDari);
+                }
                 nodeSekarang = nodeSekarang.lewat;
             }
-            dikunjungin.push(nodeSekarang.petakDari);
+            let petak = nodeSekarang.petakDari;
+            if (petak.x != null && petak.y != null && petak.milik == PIHAK_NULL)
+                dikunjungin.push(nodeSekarang.petakDari);
             return {cost: cost, dikunjungin: dikunjungin};
         }
         petakSekarang.tetangga.forEach(petak => {

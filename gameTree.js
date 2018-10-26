@@ -1,27 +1,30 @@
 class MinimaxTreeNode {
-    constructor(giliran,x,y,anak,alpha,beta) {
+    constructor(giliran,x,y,alpha = Number.MIN_SAFE_INTEGER,beta = Number.MAX_SAFE_INTEGER) {
         this.giliran = giliran;
 		this.x = x;
 		this.y = y;
         this.anak = [];
         this.alpha = alpha;
         this.beta = beta;
+        this.simpanCariJarak = null;
     }
     heuristik() {
-        if (this.giliran == PIHAK_BIRU)
-            return CariJarak(biruStart,biruEnd,PIHAK_BIRU).cost - CariJarak(merahStart,merahEnd,PIHAK_MERAH).cost;
-        else /*if (this.giliran == PIHAK_MERAH)*/ {
-            return CariJarak(merahStart,merahEnd,PIHAK_MERAH).cost - CariJarak(biruStart,biruEnd,PIHAK_BIRU).cost;
-        }
+        let hasil = CariJarak(biruStart,biruEnd,PIHAK_BIRU).cost;
+        debugMap();
+        console.log(hasil);
+        //if (this.giliran == PIHAK_BIRU)
+            return hasil;
+        //else /*if (this.giliran == PIHAK_MERAH)*/ {
+        //    return CariJarak(merahStart,merahEnd,PIHAK_MERAH).cost - CariJarak(biruStart,biruEnd,PIHAK_BIRU).cost;
+        //}
     }
 }
 
-function minimax_ab(node, depth, min_val, max_val, min_max){
+function minimax_ab_antony(node, depth, min_val, max_val, min_max){
 	if (depth == 0){
 		return node.heuristik();
 	}
-	var dari = "";
-	var ke = "";
+	var dari, ke;
 	if(node.giliran == PIHAK_MERAH){
 		dari = merahStart;
 		ke = merahEnd;
@@ -36,7 +39,8 @@ function minimax_ab(node, depth, min_val, max_val, min_max){
 			return -100;
 		else
 			return 100;
-	}
+    }
+    
 	var simpanCariJarak = CariJarak(dari,ke,node.giliran).cost;
 	
 	var alpha = null;
@@ -67,7 +71,7 @@ function minimax_ab(node, depth, min_val, max_val, min_max){
 						if(min_max == 1){  /* max */
 							alpha = min_val;
 							node.alpha = alpha;
-							var nodeAnak = new MinimaxTreeNode(giliranMusuh,j,i,null,alpha,max_val);
+							var nodeAnak = new MinimaxTreeNode(giliranMusuh,j,i,alpha,max_val);
 							node.anak.push(nodeAnak);
 							var valueReturn = minimax_ab(nodeAnak,0,alpha,max_val, 0);
 							if(valueReturn > alpha){
@@ -84,7 +88,7 @@ function minimax_ab(node, depth, min_val, max_val, min_max){
 						else if(min_max == 0){  /* min */
 							beta = max_val;
 							node.beta = beta;
-							var nodeAnak = new MinimaxTreeNode(giliranMusuh,j,i,null,min_val,beta);
+							var nodeAnak = new MinimaxTreeNode(giliranMusuh,j,i,min_val,beta);
 							node.anak.push(nodeAnak);
 							var valueReturn = minimax_ab(nodeAnak,0,min_val,beta,1);
 							if (valueReturn < beta){
@@ -102,7 +106,7 @@ function minimax_ab(node, depth, min_val, max_val, min_max){
 						if (min_max == 1){  /* max */
 							alpha = min_val;
 							node.alpha = alpha;
-							var child = new MinimaxTreeNode(giliranMusuh,j,i,null,alpha,max_val);
+							var child = new MinimaxTreeNode(giliranMusuh,j,i,alpha,max_val);
 							node.anak.push(child);
 							var valueReturn = minimax_ab(child, depth-1, alpha, max_val, 0);
 							if (valueReturn > alpha){
@@ -118,7 +122,7 @@ function minimax_ab(node, depth, min_val, max_val, min_max){
 						else if (min_max == 0){  /* min */
 							beta = max_val;
 							node.beta = beta;
-							var child = new MinimaxTreeNode(giliranMusuh,j,i,null,min_val,beta);
+							var child = new MinimaxTreeNode(giliranMusuh,j,i,min_val,beta);
 							node.anak.push(child);
 							var valueReturn = minimax_ab(child, depth-1, min_val, beta, 1);
 							if (valueReturn < beta){
@@ -143,6 +147,68 @@ function minimax_ab(node, depth, min_val, max_val, min_max){
 	else if(min_max == 0 && adaAnak == false)
 		return beta;
 }
+
+/**
+ * Adalah fungsi minimax dengan alpha beta pruning.
+ * @param {MinimaxTreeNode} node 
+ * @param {Number} depth berapa kedalaman yang harus diakses dari node ini?
+ * @param {Boolean} min_max false untuk posisi meminimalkan, true untuk posisi memaksimalkan
+ * @return {int} hasil heuristik dari node ini
+ */
+function minimax_ab(node, depth, min_max){
+    if (node.x != null)
+        setMilikPetak(node.x, node.y, node.giliran);
+    if (depth == 0) {
+        let hasil = node.heuristik();
+        setMilikPetak(node.x, node.y, PIHAK_NULL);
+        return hasil;
+    }
+    var alpha = node.alpha;
+    var beta = node.beta;
+    let dari, ke;
+    if(node.giliran == PIHAK_MERAH){
+        dari = merahStart;
+        ke = merahEnd;
+    }
+    else if(node.giliran == PIHAK_BIRU){
+        dari = biruStart;
+        ke = biruEnd;
+    }
+    node.simpanCariJarak = CariJarak(dari,ke,node.giliran);
+	if (node.simpanCariJarak.cost == -1) {
+        setMilikPetak(node.x, node.y, PIHAK_NULL);
+		if(min_max == true)
+			return Number.MIN_SAFE_INTEGER;
+		else
+			return Number.MAX_SAFE_INTEGER;
+    }
+    if(node.giliran == PIHAK_MERAH){
+        node.simpanCariJarakBuatAnak = CariJarak(biruStart, biruEnd, PIHAK_BIRU);
+    }
+    else if(node.giliran == PIHAK_BIRU){
+        node.simpanCariJarakBuatAnak = CariJarak(merahStart, merahEnd, PIHAK_MERAH);
+    }
+    for (var petak of node.simpanCariJarakBuatAnak.dikunjungin) {    
+        var nodeBaru = new MinimaxTreeNode((node.giliran + 1) % 2, petak.x, petak.y, alpha, beta);
+        node.anak.push(nodeBaru);
+        let hasil = minimax_ab(nodeBaru, depth - 1, !min_max, alpha, beta);
+        if (min_max == false) {
+            beta = Math.min(beta, hasil);
+        } else {
+            alpha = Math.max(alpha, hasil);
+        }
+        //console.log(alpha, beta);
+        if (beta <= alpha) break;
+    }
+    if (node.x != null)
+        setMilikPetak(node.x, node.y, PIHAK_NULL);
+    node.alpha = alpha;
+    node.beta = beta;
+    if (min_max == false)
+        return beta;
+    else return alpha;
+}
+
 function returnJembatan(x,y,pihak){
 	if(pihak == PIHAK_MERAH){
 		if(x%2==0){
