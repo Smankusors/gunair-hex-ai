@@ -33,7 +33,6 @@ function klikPetak(event) {
             }while(returnJembatan(xx,yy,PIHAK_BIRU));
             nodeTerpilih = new MinimaxTreeNode(PIHAK_BIRU,xx,yy,null,null,null);
         }
-        setMilikPetak(nodeTerpilih.x,nodeTerpilih.y,PIHAK_BIRU, true);
         remainingRed = CariJarak(merahStart, merahEnd, PIHAK_MERAH).cost;
         remainingBlue = CariJarak(biruStart, biruEnd, PIHAK_BIRU).cost;
         $("#merahR").text(remainingRed);
@@ -281,6 +280,7 @@ function setMilikPetak(x, y, pihak, warnai = false){
         }
     } else {
         console.info("Uh.. ngapain set milik jika sama?", petak, pihak);
+        return false;
     }
     if (warnai) {
         switch (pihak) {
@@ -301,3 +301,19 @@ function setMilikPetak(x, y, pihak, warnai = false){
     return true;
 }
 
+/** DEBUG */
+function pad(d) {
+    if (d < 0) return d.toString();
+    return ' ' + d.toString();
+}
+function debugMap() {
+    let out = "";
+    for (var y = 0; y < besar; y++) {
+        for (var x = 0; x < besar; x++) {
+            out += pad(map[x][y].milik);
+        }
+        out += "\n";
+    }
+    console.log(out);
+}
+/** END DEBUG */
