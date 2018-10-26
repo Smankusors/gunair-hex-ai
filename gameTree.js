@@ -7,11 +7,18 @@ class MinimaxTreeNode {
         this.alpha = alpha;
         this.beta = beta;
     }
+    heuristik() {
+        if (this.giliran == PIHAK_BIRU)
+            return CariJarak(biruStart,biruEnd,PIHAK_BIRU).cost - CariJarak(merahStart,merahEnd,PIHAK_MERAH).cost;
+        else /*if (this.giliran == PIHAK_MERAH)*/ {
+            return CariJarak(merahStart,merahEnd,PIHAK_MERAH).cost - CariJarak(biruStart,biruEnd,PIHAK_BIRU).cost;
+        }
+    }
 }
 
 function minimax_ab(node, depth, min_val, max_val, min_max){
 	if (depth == 0){
-		return heuristik(node);
+		return node.heuristik();
 	}
 	var dari = "";
 	var ke = "";
@@ -135,16 +142,6 @@ function minimax_ab(node, depth, min_val, max_val, min_max){
 		return alpha;
 	else if(min_max == 0 && adaAnak == false)
 		return beta;
-}
-function heuristik(node){
-    /**
-	 * pengurangan sisa petak sampai menang milik AI dan player
-	 */
-	if(node.giliran == PIHAK_BIRU)
-		return CariJarak(biruStart,biruEnd,PIHAK_BIRU).cost - CariJarak(merahStart,merahEnd,PIHAK_MERAH).cost;
-	else if(node.giliran == PIHAK_MERAH){
-		return CariJarak(merahStart,merahEnd,PIHAK_MERAH).cost - CariJarak(biruStart,biruEnd,PIHAK_BIRU).cost;
-	}
 }
 function returnJembatan(x,y,pihak){
 	if(pihak == PIHAK_MERAH){

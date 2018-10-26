@@ -158,7 +158,7 @@
         $('#duaPlayer').click(function() {
             duaPlayer = true;
             varDepth = 7;
-            besar = $("#besarPapan").val();
+            besar = parseInt($("#besarPapan").val());
             setInterval(function(){
                 ctr--;
                 if(ctr==0){
@@ -174,7 +174,7 @@
         $('#easy').click(function() {
             document.getElementById('emusic').play();
             varDepth=3;
-            besar = $("#besarPapan").val();
+            besar = parseInt($("#besarPapan").val());
             $("#mainMenu").fadeOut(1000);
             setInterval(function(){
                 ctr--;
@@ -189,7 +189,7 @@
         $('#normal').click(function() {
             document.getElementById('nmusic').play();
             varDepth=5;
-            besar = $("#besarPapan").val();
+            besar = parseInt($("#besarPapan").val());
             $("#mainMenu").fadeOut(1000);
             setInterval(function(){
                 ctr--;
@@ -204,7 +204,7 @@
         $('#hard').click(function() {
             document.getElementById('hmusic').play();
             varDepth=7;
-            besar = $("#besarPapan").val();
+            besar = parseInt($("#besarPapan").val());
             $("#mainMenu").fadeOut(1000);
             setInterval(function(){
                 ctr--;
