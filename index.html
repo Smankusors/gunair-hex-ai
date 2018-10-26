@@ -98,13 +98,17 @@
             font-family: 'Courier New', Courier, monospace;
         }
         #duaPlayer {
-            width : 250px;
-            height:100px;
-            background-image: url("AIvAI.png");
-            background-size: cover;
+            width : 75px;
+            height:50px;
+            background-image: url("2ai.png");
+            background-size: 100% 100%;
             position: absolute;
-            left : 40%;
+            left : 47%;
             top: 50%;
+        }
+        #duaPlayer:hover {
+            height : 55px;
+            transition : height 0.4s;
         }
         </style>      
     </head>
@@ -112,7 +116,7 @@
         <div id="mainMenu">
             <center><div id="merk"></div></center>   
             <center><h4><div style="font-family:'Courier New', Courier, monospace; color:white; font-weight: 100">By : 216116493, 216116497, 216116522</div></h4></center>
-            <center style="font-family:'Courier New', Courier, monospace; color:white; font-weight: 100">Board Size : <input type='number' id="besarPapan"></center>
+            <center style="font-family:'Courier New', Courier, monospace; color:white; font-weight: 100">Board Size : <input type='number' id="besarPapan" value=11></center>
             <div id='difficulty'> 
                 <h2><div style="font-family:'Courier New', Courier, monospace; color:white; font-weight: 100">Difficulty : </div></h2>
                 <div id='easy' class='tombolDifficulty' ></div>&nbsp;&nbsp;&nbsp;&nbsp;
@@ -124,6 +128,7 @@
             <audio id='nmusic'> <source src="mediumclick.mp3" type="audio/mp3"></audio>
             <audio id='hmusic'> <source src="hardclick.mp3" type="audio/mp3"></audio>
             <audio id='mmmusic'> <source src="mm_music.mp3" type="audio/mp3"></audio>
+            <audio id='aivsai'> <source src="aivsai.mp3" type="audio/mp3"></audio>
         </div>
         <div id="game" style="display: none">
             <div id='atas'><center><img src="buat.png" style='background-size: 100% 100%'></center></div>
@@ -156,16 +161,18 @@
             for(i=0; i<sounds.length; i++) sounds[i].pause();
         }
         $('#duaPlayer').click(function() {
+            document.getElementById('aivsai').play();
             duaPlayer = true;
             varDepth = 7;
             besar = parseInt($("#besarPapan").val());
+            besar = $("#besarPapan").val();
+            $("#mainMenu").fadeOut(2500);
             setInterval(function(){
                 ctr--;
                 if(ctr==0){
                     stop();
                     initMap();
-                    $("#mainMenu").fadeOut(1000);
-                    $("#game").fadeIn(3000);
+                    $("#game").fadeIn(2000);
                     document.getElementById('playmusic').play();
                     duaPlayerku();
                 }
@@ -217,17 +224,21 @@
             },1000);
         });
         var size = $(document).height()/2;
+        $("#giliranSiapa").val("m");
         $("#giliranSiapa").html("Merah");
-        $("#giliranSiapa").css("color",'red');
+        $("#giliranSiapa").css("color",'rgb(255,0,0)');
         $(".map").css("top",0);
         function gantiGiliran(){
-            if($("#giliranSiapa").html("Merah")){
+            var gege = $("#giliranSiapa").val();
+            if(gege == 'm'){
+                $("#giliranSiapa").val("b");
                 $("#giliranSiapa").html("Biru");
-                $("#giliranSiapa").css("color",'blue');
+                $("#giliranSiapa").css("color",'rgb(0,0,255)');
             }
-            else{
+            else if(gege=='b'){
+                $("#giliranSiapa").val("m");
                 $("#giliranSiapa").html("Merah");
-                $("#giliranSiapa").css("color",'red');
+                $("#giliranSiapa").css("color",'rgb(255,0,0)');
             }
         }
     </script>

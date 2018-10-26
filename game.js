@@ -53,10 +53,92 @@ function klikPetak(event) {
 var nodeMerah = null;
 var nodeBiru = null;
 var timerGame = null;
+var ctrxx = 0;
 function duaPlayerku(){
-    timerGame = setInterval(gameDuaPlayer,1000);
+    timerGame = setInterval(function(){
+        if(ctrxx%2==0){
+            gameAIMerah();
+        }
+        else{
+            gameAIBiru();
+        }
+        ctrxx++;
+        gantiGiliran();
+    },1000);
 }
-
+function gameAIMerah(){
+    nodeMerah = new MinimaxTreeNode(PIHAK_MERAH,null,null,null,null,null);
+    minimax_ab(nodeMerah, varDepth, Number.MIN_SAFE_INTEGER, Number.MAX_SAFE_INTEGER, 1);
+    nodeTerpilih = null;
+    nodeMerah.anak.some(child => {
+        if(nodeMerah.alpha == child.beta){
+            nodeTerpilih = child;
+            return true;
+        }
+    });
+    if(nodeTerpilih == null){
+        var xx = null;
+        var yy = null;
+        do{
+            xx = Math.floor(Math.random() * besar);
+            yy = Math.floor(Math.random() * besar);
+        }while(returnJembatan(xx,yy,PIHAK_BIRU));
+        nodeTerpilih = new MinimaxTreeNode(PIHAK_MERAH,xx,yy,null,null,null);
+    }
+    setMilikPetak(nodeTerpilih.x,nodeTerpilih.y,PIHAK_MERAH, true);
+    remainingRed = CariJarak(merahStart, merahEnd, PIHAK_MERAH).cost;
+    remainingBlue = CariJarak(biruStart, biruEnd, PIHAK_BIRU).cost;
+    $("#merahR").text(remainingRed);
+    $("#biruR").text(remainingBlue);
+    if (remainingRed == -1){
+        gameOver = true;
+        alert("Biru menang!");
+    }
+    else if (remainingBlue == -1){
+        gameOver = true;
+        alert("merah menang!");
+    }
+    if(gameOver){
+        clearInterval(timerGame);
+    }
+}
+function gameAIBiru(){
+    nodeBiru = new MinimaxTreeNode(PIHAK_BIRU,null,null,null,null,null);
+    minimax_ab(nodeBiru, varDepth, Number.MIN_SAFE_INTEGER, Number.MAX_SAFE_INTEGER, 1);
+    nodeTerpilih = null;
+    nodeBiru.anak.some(child => {
+        if(nodeBiru.alpha == child.beta){
+            nodeTerpilih = child;
+            return true;
+        }
+    });
+    if(nodeTerpilih == null){
+        var xx = null;
+        var yy = null;
+        do{
+            xx = Math.floor(Math.random() * besar);
+            yy = Math.floor(Math.random() * besar);
+        }while(returnJembatan(xx,yy,PIHAK_BIRU));
+        nodeTerpilih = new MinimaxTreeNode(PIHAK_BIRU,xx,yy,null,null,null);
+    }
+    setMilikPetak(nodeTerpilih.x,nodeTerpilih.y,PIHAK_BIRU, true);
+    
+    remainingRed = CariJarak(merahStart, merahEnd, PIHAK_MERAH).cost;
+    remainingBlue = CariJarak(biruStart, biruEnd, PIHAK_BIRU).cost;
+    $("#merahR").text(remainingRed);
+    $("#biruR").text(remainingBlue);
+    if (remainingRed == -1){
+        gameOver = true;
+        alert("Biru menang!");
+    }
+    else if (remainingBlue == -1){
+        gameOver = true;
+        alert("merah menang!");
+    }
+    if(gameOver){
+        clearInterval(timerGame);
+    }
+}
 function gameDuaPlayer(){
     nodeMerah = new MinimaxTreeNode(PIHAK_MERAH,null,null,null,null,null);
     minimax_ab(nodeMerah, varDepth, Number.MIN_SAFE_INTEGER, Number.MAX_SAFE_INTEGER, 1);
