@@ -10,6 +10,7 @@ var gameOver = false;
 var nodeTerpilih = null;
 function klikPetak(event) {
     if(!gameOver){
+        gantiGiliran();
         var el = $(event.currentTarget);
         var data = el.data();
         let sukses = setMilikPetak(data.x, data.y, giliran, true);
@@ -46,7 +47,7 @@ function klikPetak(event) {
             alert("merah menang!");
             gameOver = true;
         }
-        gantiGiliran();
+        
     }
 }
 var nodeMerah = null;
@@ -99,6 +100,7 @@ function gameAIMerah(){
     }
     if(gameOver){
         clearInterval(timerGame);
+        window.location.reload();
     }
 }
 function gameAIBiru(){
@@ -136,6 +138,7 @@ function gameAIBiru(){
     }
     if(gameOver){
         clearInterval(timerGame);
+        window.location.reload();
     }
 }
 function gameDuaPlayer(){
