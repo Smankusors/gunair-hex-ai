@@ -88,6 +88,7 @@ function PetakPriorityNode(petakDari, petakKe, cost, pihak, lewat = null) {
  * @param {Petak} dari Dari petak
  * @param {Petak} ke Menuju petak
  * @param {int} pihak Dari pihak siapa
+ * @return {{cost: Number, dikunjungin: Petak[]}}
  */
 function CariJarak(dari, ke, pihak) {
     var comparator = (a, b) => a.hitungCost() < b.hitungCost();
@@ -100,8 +101,9 @@ function CariJarak(dari, ke, pihak) {
             queue.push(new PetakPriorityNode(petak, ke, 0, pihak));
         dahDikunjungin.push(petak);
     });
-    var nodeSekarang = queue.pop();
-    while (true) {
+    var nodeSekarang;
+    while (!queue.isEmpty()) {
+        nodeSekarang = queue.pop();
         var petakSekarang = nodeSekarang.petakDari;
         var prevColor = $(petakSekarang.element).css("background-color");
         /*
@@ -134,8 +136,6 @@ function CariJarak(dari, ke, pihak) {
                 dahDikunjungin.push(petak);
             }
         });
-        if (queue.isEmpty())
-            return {cost: -1, dikunjungin: []};
-        nodeSekarang = queue.pop();
     }
+    return {cost: -1, dikunjungin: []};
 }
