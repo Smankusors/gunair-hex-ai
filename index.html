@@ -1,8 +1,11 @@
-<html>
+<html lang="id">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="theme-color" content="#000000" />
+        <link rel="icon" sizes="16x16" href="favicon.ico" type="image/x-icon" />
+        <link rel="shortcut icon" href="favicon.ico" sizes="16x16" type="image/x-icon" />
+        <title>Gunair Hex</title>
         <link rel="manifest" href="manifest.json">
         <script src="jquery.min.js"></script>
         <style>
@@ -12,20 +15,21 @@
             background-image: url('wallpaper_mm.jpg');
             background-size: cover;
             background-position: center;
-        }
-        #difficulty{
             display: flex;
             justify-content: center;
             align-items: center;
-            width: 100%;
-            position:absolute;
-            top:40%;
         }
-        .tombolDifficulty{
-            position:relative;
-            display:inline-block;
-            background-size:100% 100%;
-            width:75px; height:50px;
+        #difficulty{
+            display: flex;
+            margin-top: 0.5em;
+            justify-content: center;
+        }
+        .tombolDifficulty {
+            display: inline-block;
+            background-size: 100% 100%;
+            width: 75px;
+            height: 50px;
+            color: transparent;
         }
         #easy{
             background-image:url('easy.png');
@@ -60,11 +64,12 @@
             font-family: 'Courier New', Courier, monospace;
         }
         #game{
-            width:100%;
+            min-width:100%;
             min-height:100%;
             background-image: url("wallpaper_play.jpg");
             background-size: cover;
             background-position: center;
+            display: inline-block;
         }
         .map {
             position: relative;
@@ -109,9 +114,7 @@
             height:50px;
             background-image: url("2ai.png");
             background-size: 100% 100%;
-            position: absolute;
-            left : 47%;
-            top: 50%;
+            margin-top: 8px;
         }
         #duaPlayer:hover {
             height : 55px;
@@ -121,19 +124,22 @@
     </head>
     <body> 
         <div id="mainMenu">
-            <br />
             <center>
                 <div id="merk"></div>
                 <h4 style="color:white; font-weight: 100">By : 216116493, 216116497, 216116522</h4>
-                <span style="color:white; font-weight: 100">Board Size : <input type='number' id="besarPapan" value=11></span>
+                <span style="color:white; font-weight: 100">
+                    Board Size :
+                    <input type='number' id="besarPapan" value="11" aria-label="Besarnya papan permainan" />
+                </span>
+                <br /><br />
+                <span style="color:white; font-weight: 100">Difficulty :&nbsp;</span>
+                <div id='difficulty'> 
+                    <button id='easy' class='tombolDifficulty'>Easy</button>&nbsp;&nbsp;
+                    <button id='normal' class='tombolDifficulty'>Normal</button>&nbsp;&nbsp;
+                    <button id='hard' class='tombolDifficulty'>Hard</button>
+                </div>
+                <button id='duaPlayer' class="tombolDifficulty">AI vs AI</button>
             </center>
-            <div id='difficulty'> 
-                <h3><div style="color:white; font-weight: 100">Difficulty :&nbsp;</div></h3>
-                <button id='easy' class='tombolDifficulty' ></button>&nbsp;&nbsp;
-                <button id='normal' class='tombolDifficulty'></button>&nbsp;&nbsp;
-                <button id='hard' class='tombolDifficulty'></button>
-            </div>
-            <button id='duaPlayer'></button>
             <audio id='emusic'> <source src="easyclick.mp3" type="audio/mp3"></audio>
             <audio id='nmusic'> <source src="mediumclick.mp3" type="audio/mp3"></audio>
             <audio id='hmusic'> <source src="hardclick.mp3" type="audio/mp3"></audio>
@@ -182,7 +188,7 @@
                 if(ctr==0){
                     stop();
                     initMap();
-                    $("#game").fadeIn(2000);
+                    $("#game").fadeIn(500);
                     document.getElementById('playmusic').play();
                     duaPlayerku();
                 }
@@ -192,13 +198,13 @@
             document.getElementById('emusic').play();
             varDepth=3;
             besar = parseInt($("#besarPapan").val());
-            $("#mainMenu").fadeOut(1000);
+            $("#mainMenu").fadeOut(500);
             setInterval(function(){
                 ctr--;
                 if(ctr==0){
                     stop();
                     initMap();
-                    $("#game").fadeIn(2000);
+                    $("#game").fadeIn(500);
                     document.getElementById('playmusic').play();
                 }
             },1000);
@@ -207,13 +213,13 @@
             document.getElementById('nmusic').play();
             varDepth=5;
             besar = parseInt($("#besarPapan").val());
-            $("#mainMenu").fadeOut(1000);
+            $("#mainMenu").fadeOut(500);
             setInterval(function(){
                 ctr--;
                 if(ctr==0){
                     stop();
                     initMap();
-                    $("#game").fadeIn(2000);
+                    $("#game").fadeIn(500);
                     document.getElementById('playmusic').play();
                 }
             },1000);
@@ -222,13 +228,13 @@
             document.getElementById('hmusic').play();
             varDepth=7;
             besar = parseInt($("#besarPapan").val());
-            $("#mainMenu").fadeOut(1000);
+            $("#mainMenu").fadeOut(500);
             setInterval(function(){
                 ctr--;
                 if(ctr==0){
                     stop();
                     initMap();               
-                    $("#game").fadeIn(2000);
+                    $("#game").fadeIn(500);
                     document.getElementById('playmusic').play();;
                 }
             },1000);

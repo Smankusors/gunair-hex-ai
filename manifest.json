@@ -1,9 +1,31 @@
 {
-    "name": "Gunair Hex AI",
+    "name": "Gunair Hex",
     "short_name": "Gunair Hex",
     "lang": "id-ID",
     "background_color": "#000000",
     "theme_color": "#000000",
     "display": "standalone",
-    "start_url": "http://smankusors.com/proyek/ai/hex/index.html"
+    "icons": [{
+        "src": "/proyek/ai/hex/ikon/512.png",
+        "type": "image/png",
+        "sizes": "512x512"
+      },{
+        "src": "/proyek/ai/hex/ikon/192.png",
+        "type": "image/png",
+        "sizes": "192x192"
+      },{
+        "src": "/proyek/ai/hex/ikon/128.png",
+        "type": "image/png",
+        "sizes": "128x128"
+      },{
+        "src": "/proyek/ai/hex/ikon/32.png",
+        "type": "image/png",
+        "sizes": "32x32"
+      },{
+        "src": "/proyek/ai/hex/ikon/16.png",
+        "type": "image/png",
+        "sizes": "16x16"
+      }
+    ],
+    "start_url": "https://smankusors.com/proyek/ai/hex/index.html"
 }

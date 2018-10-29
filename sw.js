@@ -22,7 +22,7 @@ var masukCache = [
     "/proyek/ai/hex/wallpaper_mm.jpg",
     "/proyek/ai/hex/wallpaper_play.jpg"
 ];
-var versi = "0.1";
+var versi = "0.2";
 var namaCache = "gunair-hex-pwa" + versi;
 self.addEventListener("install", function(event) {
     event.waitUntil(
