@@ -1,66 +1,69 @@
 <html>
     <head>
-        <meta charset="UTF-8">
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="manifest" href="manifest.json">
         <script src="jquery.min.js"></script>
         <style>
-            #mainmenu{
-                width:100%; height:100%;
-                background-size:100% 100%;
-                background-image:url('wallpaper_mm.jpg');
-                background-repeat: repeat;
-            }
-            #difficulty{
-    
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                width: 100%;
-                position:absolute;
-                top:40%;
-            }
-            .tombolDifficulty{
-                position:relative;
-                display:inline-block;
-                background-size:100% 100%;
-                width:75px; height:50px;
-            }
-            #easy{
-                background-image:url('easy.png');
-            }
-            #normal{
-                background-image:url('normal.png');
-            }
-            #hard{
-                background-image:url('hard.png');
-            }
-            #easy:hover{
-                width:100px; 
-                transition:width 0.2s;
-            }
-            #normal:hover{
-                width:100px; 
-                transition:width 0.2s;
-            }
-            #hard:hover{
-                width:100px; 
-                transition:width 0.2s;
-            }
-            #merk{
-                width:200px; height:50px;
-                background-size:100% 100%;
-                background-image:url('buat.png');
-            }
-        </style>
-        <style>
+        #mainmenu {
+            width: 100%;
+            height: 100%;
+            background-image: url('wallpaper_mm.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+        #difficulty{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            position:absolute;
+            top:40%;
+        }
+        .tombolDifficulty{
+            position:relative;
+            display:inline-block;
+            background-size:100% 100%;
+            width:75px; height:50px;
+        }
+        #easy{
+            background-image:url('easy.png');
+        }
+        #normal{
+            background-image:url('normal.png');
+        }
+        #hard{
+            background-image:url('hard.png');
+        }
+        #easy:hover{
+            width:100px; 
+            transition:width 0.2s;
+        }
+        #normal:hover{
+            width:100px; 
+            transition:width 0.2s;
+        }
+        #hard:hover{
+            width:100px; 
+            transition:width 0.2s;
+        }
+        #merk{
+            width:200px;
+            height:50px;
+            background-size:100% 100%;
+            background-image:url('buat.png');
+        }
         html, body {
             margin: 0;
             padding: 0;
+            font-family: 'Courier New', Courier, monospace;
         }
         #game{
-            width:100%; height:100%;
+            width:100%;
+            min-height:100%;
             background-image: url("wallpaper_play.jpg");
-            background-size: 100% 100%;
-            background-repeat: repeat;
+            background-size: cover;
+            background-position: center;
         }
         .map {
             position: relative;
@@ -100,9 +103,6 @@
             height:50px;
             color:black;
         }
-        #giliranSiapa{
-            font-family: 'Courier New', Courier, monospace;
-        }
         #duaPlayer {
             width : 75px;
             height:50px;
@@ -120,11 +120,14 @@
     </head>
     <body> 
         <div id="mainMenu">
-            <center><div id="merk"></div></center>   
-            <center><h4><div style="font-family:'Courier New', Courier, monospace; color:white; font-weight: 100">By : 216116493, 216116497, 216116522</div></h4></center>
-            <center style="font-family:'Courier New', Courier, monospace; color:white; font-weight: 100">Board Size : <input type='number' id="besarPapan" value=11></center>
+            <br />
+            <center>
+                <div id="merk"></div>
+                <h4 style="color:white; font-weight: 100">By : 216116493, 216116497, 216116522</h4>
+                <span style="color:white; font-weight: 100">Board Size : <input type='number' id="besarPapan" value=11></span>
+            </center>
             <div id='difficulty'> 
-                <h2><div style="font-family:'Courier New', Courier, monospace; color:white; font-weight: 100">Difficulty : </div></h2>
+                <h2><div style="color:white; font-weight: 100">Difficulty : </div></h2>
                 <button id='easy' class='tombolDifficulty' ></button>&nbsp;&nbsp;&nbsp;&nbsp;
                 <button id='normal' class='tombolDifficulty'></button>&nbsp;&nbsp;&nbsp;&nbsp;
                 <button id='hard' class='tombolDifficulty'></button>
@@ -247,6 +250,10 @@
                 $("#giliranSiapa").css("color",'rgb(255,0,0)');
             }
         }
+
+        //Service Worker PWA
+        if (navigator.serviceWorker)
+            navigator.serviceWorker.register("sw.js");
     </script>
     
 </html>

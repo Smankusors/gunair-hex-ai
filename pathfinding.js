@@ -88,6 +88,7 @@ function PetakPriorityNode(petakDari, petakKe, cost, pihak, lewat = null) {
  * @param {Petak} dari Dari petak
  * @param {Petak} ke Menuju petak
  * @param {int} pihak Dari pihak siapa
+ * @return {{cost: Number, dikunjungin: Petak[]}}
  */
 function CariJarak(dari, ke, pihak) {
     var comparator = (a, b) => a.hitungCost() < b.hitungCost();
@@ -100,11 +101,12 @@ function CariJarak(dari, ke, pihak) {
             queue.push(new PetakPriorityNode(petak, ke, 0, pihak));
         dahDikunjungin.push(petak);
     });
-    var nodeSekarang = queue.pop();
-    while (true) {
+    var nodeSekarang;
+    while (!queue.isEmpty()) {
+        nodeSekarang = queue.pop();
         var petakSekarang = nodeSekarang.petakDari;
-        var prevColor = $(petakSekarang.element).css("background-color");
         /*
+        var prevColor = $(petakSekarang.element).css("background-color");
         if (pihak == PIHAK_MERAH) {
             $(petakSekarang.element).css("background-color", "orange");
         } else {
@@ -117,11 +119,15 @@ function CariJarak(dari, ke, pihak) {
             var dikunjungin = [];
             while (nodeSekarang.lewat != null) {
                 let petak = nodeSekarang.petakDari;
-                if (petak.x != null && petak.y != null && petak.milik == PIHAK_NULL)
+                if (petak.x != null && petak.y != null && petak.milik == PIHAK_NULL) {
+                    //console.log(petak.x, petak.y, petak.milik);
                     dikunjungin.push(nodeSekarang.petakDari);
+                }
                 nodeSekarang = nodeSekarang.lewat;
             }
-            dikunjungin.push(nodeSekarang.petakDari);
+            let petak = nodeSekarang.petakDari;
+            if (petak.x != null && petak.y != null && petak.milik == PIHAK_NULL)
+                dikunjungin.push(nodeSekarang.petakDari);
             return {cost: cost, dikunjungin: dikunjungin};
         }
         petakSekarang.tetangga.forEach(petak => {
@@ -134,8 +140,6 @@ function CariJarak(dari, ke, pihak) {
                 dahDikunjungin.push(petak);
             }
         });
-        if (queue.isEmpty())
-            return {cost: -1, dikunjungin: []};
-        nodeSekarang = queue.pop();
     }
+    return {cost: -1, dikunjungin: []};
 }

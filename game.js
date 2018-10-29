@@ -4,7 +4,7 @@ const PIHAK_BIRU = 1;
 const PIHAK_HIJAU = 2;
 
 var giliran = PIHAK_MERAH;
-var nodeSekarang = new MinimaxTreeNode(PIHAK_BIRU,null,null,null,null,null);
+var nodeSekarang = new MinimaxTreeNode(PIHAK_MERAH,null,null,null,null,null);
 
 var gameOver = false;
 var nodeTerpilih = null;
@@ -17,17 +17,22 @@ function klikPetak(event) {
         gantiGiliran();
         if (!sukses) return;
         
-        nodeSekarang = new MinimaxTreeNode(PIHAK_BIRU,null,null,null,null,null);
+        nodeSekarang = new MinimaxTreeNode(PIHAK_MERAH,null,null,null,null,null);
         minimax_ab(nodeSekarang, varDepth, Number.MIN_SAFE_INTEGER, Number.MAX_SAFE_INTEGER, 1);
         nodeTerpilih = null;
+        var daftarTerpilih = [];
         nodeSekarang.anak.forEach(child => {
             if(nodeSekarang.alpha == child.beta){
-                nodeTerpilih = child;
+                daftarTerpilih.push(child);
             }
         });
-        if(nodeTerpilih == null){
+        if (daftarTerpilih.length > 0){
+            let indeksRandom = Math.floor(Math.random() * daftarTerpilih.length);
+            nodeTerpilih = daftarTerpilih[indeksRandom];
+        } else {
             var xx = null;
             var yy = null;
+			alert('random');
             do{
                 xx = Math.floor(Math.random() * besar);
                 yy = Math.floor(Math.random() * besar);
@@ -71,12 +76,8 @@ function gameAIMerah(){
     nodeMerah = new MinimaxTreeNode(PIHAK_MERAH,null,null,null,null,null);
     minimax_ab(nodeMerah, varDepth, Number.MIN_SAFE_INTEGER, Number.MAX_SAFE_INTEGER, 1);
     nodeTerpilih = null;
-    nodeMerah.anak.some(child => {
-        if(nodeMerah.alpha == child.beta){
-            nodeTerpilih = child;
-            return true;
-        }
-    });
+    var randomAnak = Math.floor(Math.random() * nodeMerah.anak.length);
+    nodeTerpilih = nodeMerah.anak[randomAnak];
     if(nodeTerpilih == null){
         var xx = null;
         var yy = null;
@@ -101,19 +102,14 @@ function gameAIMerah(){
     }
     if(gameOver){
         clearInterval(timerGame);
-        window.location.reload();
     }
 }
 function gameAIBiru(){
     nodeBiru = new MinimaxTreeNode(PIHAK_BIRU,null,null,null,null,null);
     minimax_ab(nodeBiru, varDepth, Number.MIN_SAFE_INTEGER, Number.MAX_SAFE_INTEGER, 1);
     nodeTerpilih = null;
-    nodeBiru.anak.some(child => {
-        if(nodeBiru.alpha == child.beta){
-            nodeTerpilih = child;
-            return true;
-        }
-    });
+    var randomAnak = Math.floor(Math.random() * nodeBiru.anak.length);
+    nodeTerpilih = nodeBiru.anak[randomAnak];
     if(nodeTerpilih == null){
         var xx = null;
         var yy = null;
@@ -139,7 +135,6 @@ function gameAIBiru(){
     }
     if(gameOver){
         clearInterval(timerGame);
-        window.location.reload();
     }
 }
 function gameDuaPlayer(){
@@ -284,6 +279,7 @@ function setMilikPetak(x, y, pihak, warnai = false){
         }
     } else {
         console.info("Uh.. ngapain set milik jika sama?", petak, pihak);
+        return false;
     }
     if (warnai) {
         switch (pihak) {
@@ -304,3 +300,19 @@ function setMilikPetak(x, y, pihak, warnai = false){
     return true;
 }
 
+/** DEBUG */
+function pad(d) {
+    if (d < 0) return d.toString();
+    return ' ' + d.toString();
+}
+function debugMap() {
+    let out = "";
+    for (var y = 0; y < besar; y++) {
+        for (var x = 0; x < besar; x++) {
+            out += pad(map[x][y].milik);
+        }
+        out += "\n";
+    }
+    console.log(out);
+}
+/** END DEBUG */
