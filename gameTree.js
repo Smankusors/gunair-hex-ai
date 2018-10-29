@@ -20,7 +20,7 @@ class MinimaxTreeNode {
     }
 }
 
-function minimax_ab_antony(node, depth, min_val, max_val, min_max){
+function minimax_ab(node, depth, min_val, max_val, min_max){
 	if (depth == 0){
 		return node.heuristik();
 	}
@@ -36,9 +36,9 @@ function minimax_ab_antony(node, depth, min_val, max_val, min_max){
 	var cekMenang = CariJarak(dari,ke,node.giliran);
 	if(cekMenang == -1){
 		if(min_max == 1)
-			return -100;
-		else
 			return 100;
+		else
+			return -100;
     }
     
 	var simpanCariJarak = CariJarak(dari,ke,node.giliran).cost;
@@ -48,18 +48,9 @@ function minimax_ab_antony(node, depth, min_val, max_val, min_max){
 	var adaAnak = false;
 	
 	var giliranMusuh = 1-node.giliran;
-	var ii = 0;
-	var jj = 0;
-	
-	if(simpanCariJarak == besar){
-		do{
-			ii = Math.floor(besar/2);
-			jj = Math.floor(besar/2);
-		}while(ii>=besar && jj>=besar);
-	}
 	var ctr = 0;
-	for(var i = ii;i<besar;i++){
-		for(var j = jj;j<besar;j++){
+	for(var i = 0;i<besar;i++){
+		for(var j = 0;j<besar;j++){
 			adaAnak = false;
 			var petak = map[j][i];
 			if(petak.milik == PIHAK_NULL){
@@ -136,16 +127,17 @@ function minimax_ab_antony(node, depth, min_val, max_val, min_max){
 								adaAnak = true;
 						}
 					}
-					
+					if(min_max == 1 && adaAnak == false)
+						return alpha;
+					else if(min_max == 0 && adaAnak == false)
+						return beta;
 				}
 				setMilikPetak(j,i,PIHAK_NULL);
+				
 			}
 		}
 	}
-	if(min_max == 1 && adaAnak == false)
-		return alpha;
-	else if(min_max == 0 && adaAnak == false)
-		return beta;
+	
 }
 
 /**
@@ -155,7 +147,7 @@ function minimax_ab_antony(node, depth, min_val, max_val, min_max){
  * @param {Boolean} min_max false untuk posisi meminimalkan, true untuk posisi memaksimalkan
  * @return {int} hasil heuristik dari node ini
  */
-function minimax_ab(node, depth, min_max){
+function minimax_ab2(node, depth, min_max){
     if (node.x != null)
         setMilikPetak(node.x, node.y, node.giliran);
     if (depth == 0) {
@@ -211,46 +203,74 @@ function minimax_ab(node, depth, min_max){
 
 function returnJembatan(x,y,pihak){
 	if(pihak == PIHAK_MERAH){
-		if(x%2==0){
-			if(y>=1 && x>=2){
-				if(map[x-1][y] != PIHAK_BIRU || map[x-1][y-1] != PIHAK_BIRU){
-					if(map[x-2][y-1] == PIHAK_NULL){
-						return [x-2,y-1];
-					}
+		//tujuan kiri dan pojok kiri atas
+		if(y>=1 && x>=2){
+			if(map[x-1][y].milik != PIHAK_BIRU || map[x-1][y-1].milik != PIHAK_BIRU){
+				if(map[x-2][y-1].milik == PIHAK_NULL || map[x-2][y].milik == PIHAK_NULL){
+					return [x-2,y-1];
 				}
 			}
 		}
-		else if(x%2==1){
-			if(y<=besar-2 && x >= 2){
-				if(map[x-1][y] != PIHAK_BIRU || map[x-1][y+1] != PIHAK_BIRU){
-					if(map[x-2][y] == PIHAK_NULL){
-						return [x-2,y];
-					}
+		//tujuan kanan dan pojok kanan bawah
+		if(y<besar-1 && x<besar-2){
+			if(map[x+1][y].milik != PIHAK_BIRU || map[x+1][y+1].milik != PIHAK_BIRU){
+				if(map[x+2][y+1].milik == PIHAK_NULL || map[x+2][y].milik == PIHAK_NULL){
+					return [x+2,y+1];
+				}
+			}
+		}
+		//tujuan pojok kanan atas
+		if(y>0 && x<besar-1){
+			if(map[x+1][y].milik != PIHAK_BIRU || map[x][y-1].milik != PIHAK_BIRU){
+				if(map[x+1][y-1].milik == PIHAK_NULL){
+					return [x+1,y-1];
+				}
+			}
+		}
+		//tujuan pojok kiri bawah
+		if(y<besar-1 && x>0){
+			if(map[x-1][y].milik != PIHAK_BIRU || map[x][y+1].milik != PIHAK_BIRU){
+				if(map[x-1][y+1].milik == PIHAK_NULL){
+					return [x-1,y+1];
 				}
 			}
 		}
 	}
 	else if(pihak == PIHAK_BIRU){
-		if(y%2==0){
-			if(y<=besar-3 && x <= besar-2){
-				if(map[x][y+1] != PIHAK_MERAH || map[x+1][y+1] != PIHAK_MERAH){
-					if(map[x+1][y+2] == PIHAK_NULL){
-						return [x+1,y+2];
-					}
+		//tujuan bawah dan pojok kanan bawah
+		if(y<besar-2 && x < besar-1){
+			if(map[x][y+1].milik != PIHAK_MERAH || map[x+1][y+1].milik != PIHAK_MERAH){
+				if(map[x+1][y+2].milik == PIHAK_NULL || map[x][y+2].milik == PIHAK_NULL){
+					return [x+1,y+2];
 				}
 			}
 		}
-		else if(y%2==1){
-			if(y<=besar-3 && x <= besar-2){
-				if(map[x][y+1] != PIHAK_MERAH || map[x+1][y+1] != PIHAK_MERAH){
-					if(map[x][y+2] == PIHAK_NULL){
-						return [x,y+2];
-					}
+		//tujuan atas dan pojok kiri 
+		if(y>1 && x > 1){
+			if(map[x-1][y-1].milik != PIHAK_MERAH || map[x][y-1].milik != PIHAK_MERAH){
+				if(map[x-1][y-2].milik == PIHAK_NULL || map[x][y-2].milik == PIHAK_NULL){
+					return [x-1,y-2];
+				}
+			}
+		}
+		//tujuan pojok kanan atas
+		if(y>1 && x<besar-1){
+			if(map[x+1][y].milik != PIHAK_MERAH || map[x][y-1].milik != PIHAK_MERAH){
+				if(map[x+1][y-1].milik == PIHAK_NULL){
+					return [x+1,y-1];
+				}
+			}
+		}
+		//tujuan pojok kiri bawah
+		if(y<besar-1 && x>0){
+			if(map[x-1][y].milik != PIHAK_MERAH || map[x][y+1].milik != PIHAK_MERAH){
+				if(map[x-1][y+1].milik == PIHAK_NULL){
+					return [x-1,y+1];
 				}
 			}
 		}
 	}
-	else return [-1,-1];
+	return [-1,-1];
 }
 
 
