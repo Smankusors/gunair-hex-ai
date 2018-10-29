@@ -4,7 +4,7 @@ const PIHAK_BIRU = 1;
 const PIHAK_HIJAU = 2;
 
 var giliran = PIHAK_MERAH;
-var nodeSekarang = new MinimaxTreeNode(PIHAK_BIRU,null,null,null,null,null);
+var nodeSekarang = new MinimaxTreeNode(PIHAK_MERAH,null,null,null,null,null);
 
 var gameOver = false;
 var nodeTerpilih = null;
@@ -17,23 +17,26 @@ function klikPetak(event) {
         gantiGiliran();
         if (!sukses) return;
         
-        nodeSekarang = new MinimaxTreeNode(PIHAK_BIRU,null,null,null,null,null);
+        nodeSekarang = new MinimaxTreeNode(PIHAK_MERAH,null,null,null,null,null);
         minimax_ab(nodeSekarang, varDepth, Number.MIN_SAFE_INTEGER, Number.MAX_SAFE_INTEGER, 1);
         nodeTerpilih = null;
-        nodeSekarang.anak.forEach(child => {
+        nodeSekarang.anak.some(child => {
             if(nodeSekarang.alpha == child.beta){
                 nodeTerpilih = child;
+				return true;
             }
         });
         if(nodeTerpilih == null){
             var xx = null;
             var yy = null;
+			alert('random');
             do{
                 xx = Math.floor(Math.random() * besar);
                 yy = Math.floor(Math.random() * besar);
             }while(returnJembatan(xx,yy,PIHAK_BIRU));
             nodeTerpilih = new MinimaxTreeNode(PIHAK_BIRU,xx,yy,null,null,null);
         }
+		setMilikPetak(nodeTerpilih.x, nodeTerpilih.y, nodeTerpilih.giliran, true);
         remainingRed = CariJarak(merahStart, merahEnd, PIHAK_MERAH).cost;
         remainingBlue = CariJarak(biruStart, biruEnd, PIHAK_BIRU).cost;
         $("#merahR").text(remainingRed);
@@ -57,7 +60,19 @@ var ctrxx = 0;
 function duaPlayerku(){
     timerGame = setInterval(function(){
         if(ctrxx%2==0){
-            gameAIMerah();
+            if(ctrxx ==0){
+                var xRandom = -1;
+                var yRandom = -1;
+                do{
+                    xRandom = Math.floor(Math.random() * besar/2+besar/2);
+                    yRandom = Math.floor(Math.random() * besar/2+besar/2);
+                }while(xRandom>besar && yRandom>besar);
+                setMilikPetak(xRandom,yRandom,PIHAK_MERAH);
+            }
+            else{
+                gameAIMerah();
+            }
+            
         }
         else{
             gameAIBiru();
@@ -139,62 +154,6 @@ function gameAIBiru(){
     if(gameOver){
         clearInterval(timerGame);
         window.location.reload();
-    }
-}
-function gameDuaPlayer(){
-    nodeMerah = new MinimaxTreeNode(PIHAK_MERAH,null,null,null,null,null);
-    minimax_ab(nodeMerah, varDepth, Number.MIN_SAFE_INTEGER, Number.MAX_SAFE_INTEGER, 1);
-    nodeTerpilih = null;
-    nodeMerah.anak.some(child => {
-        if(nodeMerah.alpha == child.beta){
-            nodeTerpilih = child;
-            return true;
-        }
-    });
-    if(nodeTerpilih == null){
-        var xx = null;
-        var yy = null;
-        do{
-            xx = Math.floor(Math.random() * besar);
-            yy = Math.floor(Math.random() * besar);
-        }while(returnJembatan(xx,yy,PIHAK_BIRU));
-        nodeTerpilih = new MinimaxTreeNode(PIHAK_MERAH,xx,yy,null,null,null);
-    }
-    setMilikPetak(nodeTerpilih.x,nodeTerpilih.y,PIHAK_MERAH, true);
-
-    nodeBiru = new MinimaxTreeNode(PIHAK_BIRU,null,null,null,null,null);
-    minimax_ab(nodeBiru, varDepth, Number.MIN_SAFE_INTEGER, Number.MAX_SAFE_INTEGER, 1);
-    nodeTerpilih = null;
-    nodeBiru.anak.some(child => {
-        if(nodeBiru.alpha == child.beta){
-            nodeTerpilih = child;
-            return true;
-        }
-    });
-    if(nodeTerpilih == null){
-        var xx = null;
-        var yy = null;
-        do{
-            xx = Math.floor(Math.random() * besar);
-            yy = Math.floor(Math.random() * besar);
-        }while(returnJembatan(xx,yy,PIHAK_BIRU));
-        nodeTerpilih = new MinimaxTreeNode(PIHAK_BIRU,xx,yy,null,null,null);
-    }
-    setMilikPetak(nodeTerpilih.x,nodeTerpilih.y,PIHAK_BIRU, true);
-    remainingRed = CariJarak(merahStart, merahEnd, PIHAK_MERAH).cost;
-    remainingBlue = CariJarak(biruStart, biruEnd, PIHAK_BIRU).cost;
-    $("#merahR").text(remainingRed);
-    $("#biruR").text(remainingBlue);
-    if (remainingRed == -1){
-        gameOver = true;
-        alert("Biru menang!");
-    }
-    else if (remainingBlue == -1){
-        gameOver = true;
-        alert("merah menang!");
-    }
-    if(gameOver){
-        clearInterval(timerGame);
     }
 }
 
