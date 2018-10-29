@@ -42,8 +42,8 @@ function klikPetak(event) {
         setMilikPetak(nodeTerpilih.x,nodeTerpilih.y,PIHAK_BIRU, true);
         remainingRed = CariJarak(merahStart, merahEnd, PIHAK_MERAH).cost;
         remainingBlue = CariJarak(biruStart, biruEnd, PIHAK_BIRU).cost;
-        $("#merahR").text(remainingRed);
-        $("#biruR").text(remainingBlue);
+        //$("#merahR").text(remainingRed);
+        //$("#biruR").text(remainingBlue);
         
         if (remainingRed == -1){
             gameOver = true;
@@ -90,8 +90,8 @@ function gameAIMerah(){
     setMilikPetak(nodeTerpilih.x,nodeTerpilih.y,PIHAK_MERAH, true);
     remainingRed = CariJarak(merahStart, merahEnd, PIHAK_MERAH).cost;
     remainingBlue = CariJarak(biruStart, biruEnd, PIHAK_BIRU).cost;
-    $("#merahR").text(remainingRed);
-    $("#biruR").text(remainingBlue);
+    //$("#merahR").text(remainingRed);
+    //$("#biruR").text(remainingBlue);
     if (remainingRed == -1){
         gameOver = true;
         alert("Biru menang!");
@@ -123,8 +123,8 @@ function gameAIBiru(){
     
     remainingRed = CariJarak(merahStart, merahEnd, PIHAK_MERAH).cost;
     remainingBlue = CariJarak(biruStart, biruEnd, PIHAK_BIRU).cost;
-    $("#merahR").text(remainingRed);
-    $("#biruR").text(remainingBlue);
+    //$("#merahR").text(remainingRed);
+    //$("#biruR").text(remainingBlue);
     if (remainingRed == -1){
         gameOver = true;
         alert("Biru menang!");
@@ -179,8 +179,8 @@ function gameDuaPlayer(){
     setMilikPetak(nodeTerpilih.x,nodeTerpilih.y,PIHAK_BIRU, true);
     remainingRed = CariJarak(merahStart, merahEnd, PIHAK_MERAH).cost;
     remainingBlue = CariJarak(biruStart, biruEnd, PIHAK_BIRU).cost;
-    $("#merahR").text(remainingRed);
-    $("#biruR").text(remainingBlue);
+    //$("#merahR").text(remainingRed);
+    //$("#biruR").text(remainingBlue);
     if (remainingRed == -1){
         gameOver = true;
         alert("Biru menang!");

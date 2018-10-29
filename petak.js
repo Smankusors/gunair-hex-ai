@@ -124,7 +124,7 @@ function initMap() {
             
             elementBaru.click(klikPetak);
             $(".map").append(elementBaru);
-            
+            /*
             var elementCoba = $(
                 "<div class='box' " +
                     "style='left:" + x * 45 + "px; top:" + y * 40 + "px' " +
@@ -134,11 +134,14 @@ function initMap() {
             );
             elementCoba.click(klikPetak);
             $(".mapp").append(elementCoba);
-            //petakBaru.element = elementBaru[0];
+            */
+            petakBaru.element = elementBaru[0];
+            /*
             petakBaru.element = [
                 elementCoba[0],
                 elementBaru[0]
             ];
+            */
             map[x][y] = petakBaru;
         }
     }
