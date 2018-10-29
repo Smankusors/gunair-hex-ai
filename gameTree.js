@@ -10,8 +10,8 @@ class MinimaxTreeNode {
     }
     heuristik() {
         let hasil = CariJarak(biruStart,biruEnd,PIHAK_BIRU).cost;
-        debugMap();
-        console.log(hasil);
+        //debugMap();
+        //console.log(hasil);
         //if (this.giliran == PIHAK_BIRU)
             return hasil;
         //else /*if (this.giliran == PIHAK_MERAH)*/ {

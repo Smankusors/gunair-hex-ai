@@ -21,29 +21,43 @@ function klikPetak(event) {
         minimax_ab(nodeSekarang, varDepth, Number.MIN_SAFE_INTEGER, Number.MAX_SAFE_INTEGER, 1);
         nodeTerpilih = null;
         var daftarTerpilih = [];
-        nodeSekarang.anak.forEach(child => {
-            if(nodeSekarang.alpha == child.beta){
-                daftarTerpilih.push(child);
+        for (child of nodeSekarang.anak) {
+            if(nodeSekarang.alpha == child.beta) {
+                nodeTerpilih = child;
+                break;
             }
-        });
-        if (daftarTerpilih.length > 0){
-            let indeksRandom = Math.floor(Math.random() * daftarTerpilih.length);
-            nodeTerpilih = daftarTerpilih[indeksRandom];
-        } else {
-            var xx = null;
-            var yy = null;
-			alert('random');
-            do{
-                xx = Math.floor(Math.random() * besar);
-                yy = Math.floor(Math.random() * besar);
-            }while(returnJembatan(xx,yy,PIHAK_BIRU));
-            nodeTerpilih = new MinimaxTreeNode(PIHAK_BIRU,xx,yy,null,null,null);
         }
-        setMilikPetak(nodeTerpilih.x,nodeTerpilih.y,PIHAK_BIRU, true);
+        /*
+        for (child of nodeSekarang.anak) {
+            if (nodeSekarang.alpha == child.beta)
+                daftarTerpilih.push(child);
+            if (daftarTerpilih.length < 5)
+                break;
+        }
+        */
+        remainingBlue = CariJarak(biruStart, biruEnd, PIHAK_BIRU).cost;
+        if (remainingBlue > -1) {
+            if (daftarTerpilih.length > 0){
+                let indeksRandom = Math.floor(Math.random() * daftarTerpilih.length);
+                nodeTerpilih = daftarTerpilih[indeksRandom];
+            } else if (nodeTerpilih == null) {
+                var xx = null;
+                var yy = null;
+                console.log(nodeSekarang);
+                alert('random');
+                do{
+                    xx = Math.floor(Math.random() * besar);
+                    yy = Math.floor(Math.random() * besar);
+                }while(returnJembatan(xx,yy,PIHAK_BIRU));
+                nodeTerpilih = new MinimaxTreeNode(PIHAK_BIRU,xx,yy,null,null,null);
+            }
+            setMilikPetak(nodeTerpilih.x,nodeTerpilih.y,PIHAK_BIRU, true);
+        }
+        
         remainingRed = CariJarak(merahStart, merahEnd, PIHAK_MERAH).cost;
         remainingBlue = CariJarak(biruStart, biruEnd, PIHAK_BIRU).cost;
-        $("#merahR").text(remainingRed);
-        $("#biruR").text(remainingBlue);
+        //$("#merahR").text(remainingRed);
+        //$("#biruR").text(remainingBlue);
         
         if (remainingRed == -1){
             gameOver = true;
