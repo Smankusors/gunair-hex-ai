@@ -2,8 +2,8 @@
     "name": "Gunair Hex AI",
     "short_name": "Gunair Hex",
     "lang": "id-ID",
-    "background_color": "#191919",
-    "theme_color": "#191919",
+    "background_color": "#000000",
+    "theme_color": "#000000",
     "display": "standalone",
     "start_url": "http://smankusors.com/proyek/ai/hex/index.html"
 }

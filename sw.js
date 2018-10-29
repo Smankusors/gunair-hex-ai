@@ -56,7 +56,7 @@ self.addEventListener("fetch", function(event) {
             }).catch(function() {
                 return caches.match(event.request).then(function(response) {
                     if (response) return response;
-                    return new Response(null, {status: 408, ok: false, statusText: "no inet"});
+                    return new Response(null, {status: 200, ok: false, statusText: "no inet"});
                 });
             });
         })
