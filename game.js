@@ -9,6 +9,9 @@ var nodeSekarang = new MinimaxTreeNode(PIHAK_MERAH,null,null,null,null,null);
 var gameOver = false;
 var nodeTerpilih = null;
 function klikPetak(event) {
+    if(duaPlayer){
+        return;
+    }
     if(!gameOver){
         var el = $(event.currentTarget);
         var data = el.data();
