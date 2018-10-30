@@ -26,8 +26,6 @@ function klikPetak(event) {
             nodeSekarang.anak.forEach(child => {
                 if(nodeSekarang.alpha == child.beta){
                     daftarTerpilih.push(child);
-                    //nodeTerpilih = child;
-                    //return true;
                 }
             });
             if (daftarTerpilih.length > 0) {
@@ -48,15 +46,26 @@ function klikPetak(event) {
             
             if (remainingRed == -1) {
                 gameOver = true;
-                alert("Biru menang!");
+                setTimeout(reloadGame("Biru"),300)
             }
             else if (remainingBlue == -1){
-                alert("merah menang!");
                 gameOver = true;
+                setTimeout(reloadGame("Merah"),300);
             }
         }, 100);
     }
 }
+function reloadGame(menang){
+    $("#modalMsg .modal-content .isi").html("Pemenang : " + menang);
+    $(".modal").fadeIn(300);
+}
+$("#tombolmm").click(function(){
+    $(".modal").fadeOut(300);
+    $("#game").fadeOut(300);
+    setTimeout(function(){
+        window.location.reload();
+    },300);
+});
 var nodeMerah = null;
 var nodeBiru = null;
 var timerGame = null;
@@ -93,13 +102,13 @@ function gameAIMerah(){
     remainingBlue = CariJarak(biruStart, biruEnd, PIHAK_BIRU).cost;
     //$("#merahR").text(remainingRed);
     //$("#biruR").text(remainingBlue);
-    if (remainingRed == -1){
+    if (remainingRed == -1) {
         gameOver = true;
-        alert("Biru menang!");
+        setTimeout(reloadGame("Biru"),300)
     }
     else if (remainingBlue == -1){
         gameOver = true;
-        alert("merah menang!");
+        setTimeout(reloadGame("Merah"),300);
     }
     if(gameOver){
         clearInterval(timerGame);
@@ -126,13 +135,13 @@ function gameAIBiru(){
     remainingBlue = CariJarak(biruStart, biruEnd, PIHAK_BIRU).cost;
     //$("#merahR").text(remainingRed);
     //$("#biruR").text(remainingBlue);
-    if (remainingRed == -1){
+    if (remainingRed == -1) {
         gameOver = true;
-        alert("Biru menang!");
+        setTimeout(reloadGame("Biru"),300)
     }
     else if (remainingBlue == -1){
         gameOver = true;
-        alert("merah menang!");
+        setTimeout(reloadGame("Merah"),300);
     }
     if(gameOver){
         clearInterval(timerGame);

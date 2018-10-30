@@ -120,10 +120,42 @@
             height : 55px;
             transition : height 0.4s;
         }
+        .modal{
+            display:none;
+            position:fixed;
+            z-index: 1;
+            left:0;
+            top:0;
+            width:100%;
+            height:100%;
+            overflow:auto;
+            background-color: rgba(0,0,0,0.4);
+        }
+        .modal-content{
+            text-align: center;
+            background-color: rgba(211,211,211,0.95);
+            margin:15% auto;
+            padding : 20px;
+            border-radius: 3px;
+            width:300px;
+        }
+        #tombolmm {
+            background-color: black;
+            color: white;
+            border: none;
+            margin-top: 10px;
+            padding: 10px 15px;
+            transition: background-color 0.3s, padding 0.3s;
+        }
+        #tombolmm:hover {
+            background-color: rgb(50, 50, 50);
+            padding: 10px 20px;
+            cursor:hand; 
+        }
         </style>      
     </head>
     <body> 
-        <div id="mainMenu">
+        <div id="mainMenu" style="display:none">
             <center>
                 <div id="merk"></div>
                 <h4 style="color:white; font-weight: 100">By : 216116493, 216116497, 216116522</h4>
@@ -158,7 +190,12 @@
             -->
             <audio id='playmusic'><source src="playgame.mp3" type="audio/mp3"></audio>
         </div>
-        
+        <div id="modalMsg" class='modal'>
+            <div class='modal-content'>
+                <div class="isi"></div>
+                <button id='tombolmm'>Go To Main Menu</button>
+            </div>
+        </div>
     </body>
     <!--
         var global :
@@ -259,7 +296,7 @@
                 $("#giliranSiapa").css("color",'rgb(255,0,0)');
             }
         }
-
+        $("#mainMenu").fadeIn(300);
         //Service Worker PWA
         if (navigator.serviceWorker)
             navigator.serviceWorker.register("sw.js");
