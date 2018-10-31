@@ -28,6 +28,7 @@ function klikPetak(event) {
 			else
 				nodeSekarang = new MinimaxTreeNode(PIHAK_MERAH,null,null,null,null,null);
             negamax_ab(nodeSekarang, varDepth, Number.MIN_SAFE_INTEGER, Number.MAX_SAFE_INTEGER,1);
+            //minimax_ab(nodeSekarang, varDepth, Number.MIN_SAFE_INTEGER, Number.MAX_SAFE_INTEGER,1);
             nodeTerpilih = null;
             /*var daftarTerpilih = [];
             nodeSekarang.anak.forEach(child => {
@@ -295,10 +296,11 @@ function setMilikPetak(x, y, pihak, warnai = false){
                 jumlahMilikDiagonal[petak.diagonal][pihak]++;
             } else return false;
         } else {
+            let milikSblm = petak.milik;
+            jumlahMilikKolom[x][milikSblm]--;
+            jumlahMilikBaris[y][milikSblm]--;
+            jumlahMilikDiagonal[petak.diagonal][milikSblm]--;
             petak.milik = PIHAK_NULL;
-            jumlahMilikKolom[x][pihak]--;
-            jumlahMilikBaris[y][pihak]--;
-            jumlahMilikDiagonal[petak.diagonal][pihak]--;    
         }
     } else {
         console.info("Uh.. ngapain set milik jika sama?", petak, pihak);

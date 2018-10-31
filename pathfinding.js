@@ -35,16 +35,18 @@ function PetakPriorityNode(petakDari, petakKe, cost, pihak, lewat = null) {
     this.cost = cost;
     
     this.pihak = pihak;
+    this.lawanPihak = (pihak + 1) % 2;
     
     this.tempMilikKolom = $.extend(true, [], jumlahMilikKolom);
     this.tempMilikBaris = $.extend(true, [], jumlahMilikBaris);
     this.tempMilikDiagonal = $.extend(true, [], jumlahMilikDiagonal);
+    /*
     if (petakDari.diagonal != null) {
         this.tempMilikKolom[petakDari.x][pihak]--;
         this.tempMilikBaris[petakDari.y][pihak]--;
         this.tempMilikDiagonal[petakDari.diagonal][pihak]--;
     }
-    
+    */
     /**
      * Sebagai fungsi h(x), heuristiknya
      */
@@ -54,12 +56,31 @@ function PetakPriorityNode(petakDari, petakKe, cost, pihak, lewat = null) {
                 this._jarak = this.petakDari.jarakDenganPetak(this.petakKe) * 10;
                 if (this.petakDari.milik == this.pihak)
                     this._jarak -= 10;
+                /*
                 if (this.tempMilikKolom[this.petakDari.x][this.pihak] >= 0)
                     this._jarak -= 2;
                 if (this.tempMilikBaris[this.petakDari.y][this.pihak] >= 0)
                     this._jarak -= 2;
                 if (this.tempMilikDiagonal[this.petakDari.diagonal][this.pihak] >= 0)
                     this._jarak -= 2;
+                
+                if (this.tempMilikKolom[this.petakDari.x][this.lawanPihak] >= 0)
+                    this._jarak += 2;
+                if (this.tempMilikBaris[this.petakDari.y][this.lawanPihak] >= 0)
+                    this._jarak += 2;
+                if (this.tempMilikDiagonal[this.petakDari.diagonal][this.lawanPihak] >= 0)
+                    this._jarak += 2;
+                */
+                this._jarak -= ((
+                        this.tempMilikKolom[this.petakDari.x][this.pihak] +
+                        this.tempMilikBaris[this.petakDari.y][this.pihak] +
+                        this.tempMilikDiagonal[this.petakDari.diagonal][this.pihak]
+                    ) - (
+                        this.tempMilikKolom[this.petakDari.x][this.lawanPihak] -
+                        this.tempMilikBaris[this.petakDari.y][this.lawanPihak] -
+                        this.tempMilikDiagonal[this.petakDari.diagonal][this.lawanPihak]
+                    )) * 2;
+
                 var adaTetangga = false;
                 for (var petakTetangga of this.petakDari.tetangga) {
                     if (petakTetangga.milik == this.pihak && petakTetangga.diagonal != null) {
