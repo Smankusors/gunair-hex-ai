@@ -20,6 +20,16 @@ class MinimaxTreeNode {
     }
 }
 
+/**
+ * Adalah fungsi minimax dengan alpha beta pruning.
+ * Punyanya Agung
+ * @param {MinimaxTreeNode} node 
+ * @param {Number} depth berapa kedalaman yang harus diakses dari node ini?
+ * @param {Number} min_val
+ * @param {Number} max_val
+ * @param {Number} min_max 0 untuk posisi meminimalkan, 1 untuk posisi memaksimalkan
+ * @return {int} hasil heuristik dari node ini
+ */
 function minimax_ab(node, depth, min_val, max_val, min_max){
 	if (depth == 0){
 		return node.heuristik();
@@ -142,6 +152,7 @@ function minimax_ab(node, depth, min_val, max_val, min_max){
 
 /**
  * Adalah fungsi minimax dengan alpha beta pruning.
+ * Dan ini sangat lemot, jangan dipakai.
  * @param {MinimaxTreeNode} node 
  * @param {Number} depth berapa kedalaman yang harus diakses dari node ini?
  * @param {Boolean} min_max false untuk posisi meminimalkan, true untuk posisi memaksimalkan
