@@ -19,24 +19,37 @@ function klikPetak(event) {
         if (!sukses) return;
         gantiGiliran();
         setTimeout(function() {
-            nodeSekarang = new MinimaxTreeNode(PIHAK_MERAH,null,null,null,null,null);
-            minimax_ab(nodeSekarang, varDepth, Number.MIN_SAFE_INTEGER, Number.MAX_SAFE_INTEGER, 1);
+			if(hard == true){
+				if(CariJarak(merahStart, merahEnd, PIHAK_MERAH).cost > CariJarak(biruStart, biruEnd, PIHAK_BIRU).cost)
+					nodeSekarang = new MinimaxTreeNode(PIHAK_BIRU,null,null,null,null,null);
+				else
+					nodeSekarang = new MinimaxTreeNode(PIHAK_MERAH,null,null,null,null,null);
+			}
+			else
+				nodeSekarang = new MinimaxTreeNode(PIHAK_MERAH,null,null,null,null,null);
+            negamax_ab(nodeSekarang, varDepth, Number.MIN_SAFE_INTEGER, Number.MAX_SAFE_INTEGER,1);
             nodeTerpilih = null;
-            var daftarTerpilih = [];
+            /*var daftarTerpilih = [];
             nodeSekarang.anak.forEach(child => {
-                if(nodeSekarang.alpha == child.beta){
+                if(nodeSekarang.alpha == child.beta*-1){
                     daftarTerpilih.push(child);
                 }
             });
             if (daftarTerpilih.length > 0) {
                 let indeksRandom = Math.floor(Math.random() * daftarTerpilih.length);
                 nodeTerpilih = daftarTerpilih[indeksRandom];
-            }
+            }*/
+			nodeSekarang.anak.some(child => {
+				if(nodeSekarang.alpha == child.beta*-1){
+					nodeTerpilih = child;
+					return true;
+				}
+			});
             remainingBlue = CariJarak(biruStart, biruEnd, PIHAK_BIRU).cost;
             if (remainingBlue > -1) {
-                if (nodeTerpilih !== null)
-                    setMilikPetak(nodeTerpilih.x,nodeTerpilih.y,PIHAK_BIRU, true);
-                else alert('saya bingung');
+                if (nodeTerpilih == null)
+                    nodeTerpilih = nodeSekarang.anak[0];
+                setMilikPetak(nodeTerpilih.x,nodeTerpilih.y,PIHAK_BIRU, true);
                 gantiGiliran();
             }
             remainingRed = CariJarak(merahStart, merahEnd, PIHAK_MERAH).cost;

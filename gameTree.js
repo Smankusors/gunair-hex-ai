@@ -19,7 +19,61 @@ class MinimaxTreeNode {
         //}
     }
 }
-
+function negamax_ab(node,depth, alpha, beta, signBit){
+	if (depth == 0){
+		return signBit * node.heuristik();
+	}
+	var dari, ke;
+	if(node.giliran == PIHAK_MERAH){
+		dari = merahStart;
+		ke = merahEnd;
+	}
+	else if(node.giliran == PIHAK_BIRU){
+		dari = biruStart;
+		ke = biruEnd;
+	}
+	var cekMenang = CariJarak(dari,ke,node.giliran);
+	if(cekMenang == -1){
+		if(min_max == 1)
+			return 100;
+		else
+			return -100;
+    }
+    
+	var simpanCariJarak = CariJarak(dari,ke,node.giliran).cost;
+	var giliranMusuh = 1-node.giliran;
+	var ctr = 0;
+	var valueSekarang = Number.MIN_SAFE_INTEGER;
+	for(var i = 0;i<besar;i++){
+		for(var j = 0;j<besar;j++){
+			adaAnak = false;
+			var petak = map[j][i];
+			if(petak.milik == PIHAK_NULL){
+				setMilikPetak(j,i,node.giliran);
+				var jarakDisini = CariJarak(dari,ke,node.giliran).cost;
+				if(jarakDisini < simpanCariJarak){
+					if(returnJembatan(j,i,node.giliran) != [-1,-1]){
+						var nodeAnak = new MinimaxTreeNode(giliranMusuh,j,i,-beta,-alpha);
+						node.anak.push(nodeAnak);
+						valueSekarang = Math.max(valueSekarang, -negamax_ab(nodeAnak,0,-beta,-alpha,-signBit));
+						alpha = Math.max(alpha,valueSekarang);
+						node.alpha = alpha;
+						if(alpha >= beta){ return;}
+					}else{
+						var nodeAnak = new MinimaxTreeNode(giliranMusuh,j,i,-beta,-alpha);
+						node.anak.push(nodeAnak);
+						valueSekarang = Math.max(valueSekarang, -negamax_ab(nodeAnak,depth-1,-beta,-alpha,-signBit));
+						alpha = Math.max(alpha,valueSekarang);
+						node.alpha = alpha;
+						if(alpha >= beta) return;
+					}
+				}
+				setMilikPetak(j,i,PIHAK_NULL);
+			}
+		}
+	}
+	return valueSekarang;
+}
 /**
  * Adalah fungsi minimax dengan alpha beta pruning.
  * Punyanya Agung
@@ -152,7 +206,6 @@ function minimax_ab(node, depth, min_val, max_val, min_max){
 
 /**
  * Adalah fungsi minimax dengan alpha beta pruning.
- * Dan ini sangat lemot, jangan dipakai.
  * @param {MinimaxTreeNode} node 
  * @param {Number} depth berapa kedalaman yang harus diakses dari node ini?
  * @param {Boolean} min_max false untuk posisi meminimalkan, true untuk posisi memaksimalkan
